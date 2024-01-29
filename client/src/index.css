@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .font-roboto {
+    font-family: "YourFontName", sans-serif; /* Replace 'YourFontName' with the actual font name */
+  }
+
+  .font-arial {
+    font-family: "Arial", sans-serif;
+  }
+}
