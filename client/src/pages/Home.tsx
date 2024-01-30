@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductList from "../components/ProductList";
 import SideBar from "../components/SideBar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -9,6 +9,29 @@ import { TypeOf } from "zod";
 
 type HomeProps = {};
 type CreateSessionInput = TypeOf<typeof createSessionSchema>;
+
+interface CustomPopupProps {
+  message: string;
+  onClose: () => void;
+}
+
+const CustomPopup: React.FC<CustomPopupProps> = ({ message, onClose }) => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="p-4 bg-gray-800 bg-opacity-75 rounded-lg">
+        <div className="p-6 bg-white rounded-lg shadow-md">
+          <p className="text-gray-800">{message}</p>
+          <button
+            className="px-4 py-2 mt-4 text-white rounded-md bg-violet-800 hover:bg-violet-600 focus:outline-none focus:shadow-outline-violet"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home: React.FC<HomeProps> = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -29,6 +52,7 @@ const Home: React.FC<HomeProps> = () => {
   //   }
   // };
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleLogin = async (credential: CreateSessionInput) => {
     try {
@@ -41,16 +65,17 @@ const Home: React.FC<HomeProps> = () => {
       console.log("handleLogin() error", error);
     } finally {
       setLoading(false);
+      setShowPopup(true);
     }
-
-    setTimeout(() => {
-      if (loading) {
-        alert(
-          "Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
-        );
-      }
-    }, 1000);
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowPopup(false);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [showPopup]);
 
   return user ? (
     <>
@@ -88,6 +113,12 @@ const Home: React.FC<HomeProps> = () => {
             </p>
             <div className="flex flex-col items-center justify-center">
               <p>Register or test the application with a guest account</p>
+              {showPopup && (
+                <CustomPopup
+                  message="Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
+                  onClose={() => setShowPopup(false)}
+                />
+              )}
               <button
                 onClick={() => handleLogin(credential)}
                 className="px-4 py-2 mt-6 text-gray-100 rounded-lg pb-10font-bold bg-violet-800 hover:bg-violet-500"
