@@ -6,7 +6,7 @@
     "start": "node ./dist/index.js",
     "test": "jest",
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "build": "npm install && tsc",
+    "build": "npm install && tsc --outDir ./dist",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist"
   },
