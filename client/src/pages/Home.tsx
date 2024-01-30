@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductList from "../components/ProductList";
 import SideBar from "../components/SideBar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -20,12 +20,35 @@ const Home: React.FC<HomeProps> = () => {
     password: "123456",
   };
 
+  // const handleLogin = async (credential: CreateSessionInput) => {
+  //   try {
+  //     dispatch(login(credential));
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.log("handleLogin() error", error);
+  //   }
+  // };
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = async (credential: CreateSessionInput) => {
     try {
-      dispatch(login(credential));
+      setLoading(true);
+
+      await dispatch(login(credential));
+
       navigate("/");
     } catch (error) {
       console.log("handleLogin() error", error);
+    } finally {
+      setLoading(false);
+
+      setTimeout(() => {
+        if (loading) {
+          alert(
+            "Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
+          );
+        }
+      }, 1000);
     }
   };
 
