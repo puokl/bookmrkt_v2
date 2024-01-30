@@ -84,8 +84,8 @@ const ProductList = () => {
                   {/* Content */}
                   <div className="flex flex-col w-full">
                     {/* Title and Author */}
-                    <div className="flex flex-col items-center mb-2">
-                      <p className="font-bold">{item.price} €</p>
+                    <div className="flex flex-col items-center my-2">
+                      <p className="mb-2 font-bold">{item.price} €</p>
                       <p className="font-bold leading-tight text-center text-md">
                         {item.title}
                       </p>
@@ -102,19 +102,28 @@ const ProductList = () => {
                     {/* Additional Information */}
                     {hoveredProduct && hoveredProduct._id === item._id && (
                       <div className="absolute top-0 right-0 w-full p-2 rounded-md shadow-md bg-cyan-100 hover:bg-opacity-80">
+                        <p className="text-sm">{dateFromNow(item.createdAt)}</p>
                         <div>
-                          <div className="flex">
-                            <TfiLocationPin />
-                            <p className="text-sm">{item.location}</p>
+                          <div className="flex text-sm">
+                            {/* <TfiLocationPin /> */}
+                            <p className="text-sm">
+                              <strong>Where: </strong>
+                              {truncateText(item.location || "", 25)}
+                            </p>
                           </div>
                           {/* <p className="text-sm">{item.price} €</p> */}
-                          <p className="text-sm">Language: {item.language}</p>
                           <p className="text-sm">
-                            {dateFromNow(item.createdAt)}
+                            <strong>Language: </strong>
+                            {item.language}
+                          </p>
+                          <p className="text-sm">
+                            <strong>Condition: </strong>
+                            {item.condition}
                           </p>
                         </div>
                         <div className="mb-2">
                           <p className="text-sm">
+                            <strong>Info: </strong>
                             <span className="md:hidden ">
                               {truncateText(item.description || "", 50)}{" "}
                             </span>

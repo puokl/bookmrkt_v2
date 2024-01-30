@@ -196,13 +196,13 @@ const Layout = () => {
                     <FaUser />
                   </a>
                   <span
-                    className={`absolute ml-[-35px] px-2 py-1 text-xs text-black inline-block w-[110px] whitespace-no-wrap transition-opacity duration-300 ease-in-out bg-white rounded-md top-12 ${
+                    className={`absolute ml-[-35px] px-2 py-1 text-xs text-black inline-block w-[73px] whitespace-no-wrap transition-opacity duration-300 ease-in-out bg-white rounded-md top-12 ${
                       hoveredIcon === "profile"
                         ? "opacity-100 visible"
                         : "opacity-0 invisible"
                     }`}
                   >
-                    Profile Settings
+                    My Books
                   </span>
                 </div>
                 <div className="mx-2 icon-container">

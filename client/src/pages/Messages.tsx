@@ -143,94 +143,86 @@ const Messages = () => {
 
   return (
     <>
-      <div className="flex flex-col bg-emerald-100">
-        {/* ... Left column for filteredChat ... */}
+      <div className="flex flex-col p-2 bg-emerald-100">
+        <div className="flex space-x-2 ">
+          <button
+            className={`m-2 p-2 my-4 rounded-md ${
+              selectedChatType === "sent" ? "bg-emerald-300" : ""
+            }`}
+            onClick={() => handleTabClick("sent")}
+          >
+            Sent Items
+          </button>
+          <button
+            className={`m-2 p-2 my-4 rounded-md ${
+              selectedChatType === "received" ? "bg-emerald-300" : ""
+            }`}
+            onClick={() => handleTabClick("received")}
+          >
+            Inbox
+          </button>
+        </div>
 
-        <p className="m-2 text-lg font-semibold">Hi from messages</p>
-        <div className="flex flex-col ">
-          <div className="flex space-x-2 ">
-            <button
-              className={`m-2 p-2 ${
-                selectedChatType === "sent" ? "bg-gray-300" : ""
-              }`}
-              onClick={() => handleTabClick("sent")}
-            >
-              Sent Chat
-            </button>
-            <button
-              className={`m-2 p-2 ${
-                selectedChatType === "received" ? "bg-gray-300" : ""
-              }`}
-              onClick={() => handleTabClick("received")}
-            >
-              Received Chat
-            </button>
-          </div>
-
-          <p className="mb-2 text-lg font-bold">
-            {selectedChatType === "sent" ? "Sent Chat" : "Received Chat"}
-          </p>
-          <div className="main">
-            <div className="lg:flex">
-              {/* Left column for filteredChat on mobile and lg screens */}
-              <div className="lg:w-1/2">
-                <div className="flex flex-col w-full overflow-x-auto ">
-                  {filteredChat &&
-                    filteredChat.map((item: chatType) => (
-                      <div
-                        key={item._id}
-                        className={`flex-shrink-0 p-2 m-1 border border-red-500 bg-gray-100 rounded-md cursor-pointer hover:bg-gray-200 lg:flex-col ${
-                          selectedChatId === item?._id ? "bg-gray-200" : ""
-                        }`}
-                        onClick={(event) => {
-                          handleChatClick(item, event);
-                          // setSelectedChatId(item?._id || null);
-                        }}
-                      >
-                        <div className="flex items-center w-full">
-                          <img
-                            src={item.productImage}
-                            alt="Product"
-                            className="object-cover w-20 h-20"
-                          />
-                          <div className="flex flex-col w-full m-2">
-                            <div className="flex justify-between">
-                              <p className="font-bold text-md">
-                                {toUpperCase(item.senderName)}
-                              </p>
-                              <p>{dateFromNow(item.createdAt)}</p>
-                            </div>
-                            <div className="flex flex-col">
-                              <p className="font-bold">{item.title}</p>
-                              <p>
-                                {truncateString(item.conversation[0].message)}
-                              </p>
-                            </div>
+        <p className="mt-4 mb-2 text-lg font-bold">
+          {selectedChatType === "sent" ? "Sent Messages" : "Received Messages"}
+        </p>
+        <div className="main">
+          <div className="lg:flex">
+            {/* Left column for filteredChat on mobile and lg screens */}
+            <div className="lg:w-1/2">
+              <div className="flex flex-col w-full overflow-x-auto ">
+                {filteredChat &&
+                  filteredChat.map((item: chatType) => (
+                    <div
+                      key={item._id}
+                      className={`flex-shrink-0 p-2 m-1 border border-red-500 bg-gray-100 rounded-md cursor-pointer hover:bg-gray-200 lg:flex-col ${
+                        selectedChatId === item?._id ? "bg-gray-200" : ""
+                      }`}
+                      onClick={(event) => {
+                        handleChatClick(item, event);
+                        // setSelectedChatId(item?._id || null);
+                      }}
+                    >
+                      <div className="flex items-center w-full">
+                        <img
+                          src={item.productImage}
+                          alt="Product"
+                          className="object-cover w-20 h-20"
+                        />
+                        <div className="flex flex-col w-full m-2">
+                          <div className="flex justify-between">
+                            <p className="font-bold text-md">
+                              {toUpperCase(item.senderName)}
+                            </p>
+                            <p>{dateFromNow(item.createdAt)}</p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="font-bold">{item.title}</p>
+                            <p>
+                              {truncateString(item.conversation[0].message)}
+                            </p>
                           </div>
                         </div>
-
-                        {/* on mobile */}
-                        {selectedChatToShow?._id === item._id && (
-                          <div className="lg:w-1/2 lg:min-w-[300px] lg:ml-4 mt-4 lg:mt-0 lg:hidden">
-                            <ChatDetails
-                              chat={selectedChatToShow}
-                              user={user}
-                            />
-                          </div>
-                        )}
                       </div>
-                    ))}
-                </div>
-              </div>
 
-              {/* on lg screens */}
-              <div className="hidden lg:w-1/2 lg:block">
-                {selectedChatToShow?._id && (
-                  <div className="lg:w-full lg:min-w-[300px] lg:mx-4 mt-4 lg:mt-0 lg:pr-4">
-                    <ChatDetails chat={selectedChatToShow} user={user} />
-                  </div>
-                )}
+                      {/* on mobile */}
+                      {selectedChatToShow?._id === item._id && (
+                        <div className="lg:w-1/2 lg:min-w-[300px] lg:ml-4 mt-4 lg:mt-0 lg:hidden">
+                          <ChatDetails chat={selectedChatToShow} user={user} />
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
+            </div>
+
+            {/* on lg screens */}
+            <div className="hidden lg:w-1/2 lg:block">
+              {selectedChatToShow?._id && (
+                <div className="lg:w-full lg:min-w-[300px] lg:mx-4 mt-4 lg:mt-0 lg:pr-4">
+                  <ChatDetails chat={selectedChatToShow} user={user} />
+                </div>
+              )}
             </div>
           </div>
         </div>

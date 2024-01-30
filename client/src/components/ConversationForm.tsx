@@ -52,8 +52,11 @@ const ConversationForm: React.FC<conversationFormProps> = ({
 
   return (
     <>
-      <p className="mb-4">Hello from ConversationForm</p>
-      <form className="space-y-4" onSubmit={handleSubmit(handleConversation)}>
+      {/* <p className="mb-4">Hello from ConversationForm</p> */}
+      <form
+        className="mt-6 space-y-4"
+        onSubmit={handleSubmit(handleConversation)}
+      >
         <div>
           <label
             htmlFor="message"
