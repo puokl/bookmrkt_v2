@@ -41,15 +41,15 @@ const Home: React.FC<HomeProps> = () => {
       console.log("handleLogin() error", error);
     } finally {
       setLoading(false);
-
-      setTimeout(() => {
-        if (loading) {
-          alert(
-            "Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
-          );
-        }
-      }, 1000);
     }
+
+    setTimeout(() => {
+      if (loading) {
+        alert(
+          "Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
+        );
+      }
+    }, 1000);
   };
 
   return user ? (
