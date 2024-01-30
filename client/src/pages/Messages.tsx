@@ -9,6 +9,7 @@ import { chatType, conversationType } from "../types/chatType";
 import { dateFromNow, toUpperCase, truncateString } from "../utils/textFormat";
 import ConversationForm from "../components/ConversationForm";
 import ReplyMessage from "../components/ReplyMessage";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface ChatDetailsProps {
   chat: chatType | null;
@@ -137,7 +138,7 @@ const Messages = () => {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div className="loader"></div>; // Replace with a Tailwind styled spinner
+    return <LoadingSpinner />;
   }
 
   return (

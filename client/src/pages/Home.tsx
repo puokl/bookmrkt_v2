@@ -67,7 +67,7 @@ const Home: React.FC<HomeProps> = () => {
               <p>Register or test the application with a guest account</p>
               <button
                 onClick={() => handleLogin(credential)}
-                className="px-4 py-2 mt-6 font-bold text-gray-100 rounded-lg bg-violet-800 hover:bg-violet-500"
+                className="px-4 py-2 mt-6 text-gray-100 rounded-lg pb-10font-bold bg-violet-800 hover:bg-violet-500"
               >
                 Login as a guest
               </button>

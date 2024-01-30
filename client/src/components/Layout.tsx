@@ -102,10 +102,6 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    console.log("user", user);
-  }, []);
-
-  useEffect(() => {
     // Disable scroll when mobile menu is open
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";

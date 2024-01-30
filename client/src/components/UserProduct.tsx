@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { deleteProduct, getAllUserProduct } from "../redux/slices/productSlice";
 import { useNavigate } from "react-router-dom";
 import { truncateText } from "../utils/customText";
+import LoadingSpinner from "./LoadingSpinner";
 
 const UserProduct = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,9 @@ const UserProduct = () => {
     dispatch(getAllUserProduct());
   }, [dispatch]);
 
-  if (isLoading) return <div className="spinner"></div>;
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>

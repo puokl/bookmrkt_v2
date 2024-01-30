@@ -7,6 +7,7 @@ import { login } from "../redux/slices/authSlice";
 import { createSessionSchema } from "../schema/sessionSchema";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import getGoogleOAuthURL from "../utils/getGoogleUrl"; // Make sure this is compatible with your setup
+import LoadingSpinner from "../components/LoadingSpinner";
 
 type CreateSessionInput = TypeOf<typeof createSessionSchema>;
 
@@ -45,7 +46,7 @@ const Login = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="spinner"></div>; // Replace with a Tailwind styled spinner
+    return <LoadingSpinner />;
   }
 
   return (

@@ -8,6 +8,7 @@ import { formattedDate } from "../utils/textFormat";
 import { MdLocationPin } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 import { CustomText } from "../utils/customText";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const DisplayProduct = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -37,14 +38,7 @@ const DisplayProduct = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen space-x-2 bg-white dark:invert">
-        <span className="sr-only">Loading...</span>
-        <div className="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-        <div className="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-        <div className="w-8 h-8 bg-black rounded-full animate-bounce"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (product) {

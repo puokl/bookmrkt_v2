@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 import { uploadAvatar } from "../redux/slices/imageSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { updateProfile } from "../redux/slices/authSlice";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Settings = () => {
   const { user, isLoading } = useAppSelector((state) => state.auth);
@@ -65,7 +66,7 @@ const Settings = () => {
   };
 
   if (isLoading) {
-    return <div className="loader"></div>; // Replace with a Tailwind styled spinner
+    return <LoadingSpinner />;
   }
 
   return (

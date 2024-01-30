@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../redux/hooks";
+import LoadingSpinner from "./LoadingSpinner";
 
 const UserProfile = () => {
   const { user, isLoading } = useAppSelector((state) => state.auth);
 
   if (isLoading) {
-    return <div className="loader"></div>; // Replace with a Tailwind styled loader
+    return <LoadingSpinner />;
   }
 
   return (

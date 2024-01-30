@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser, reset } from "../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { createUserSchema } from "../schema/userSchema";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 type CreateUserInput = TypeOf<typeof createUserSchema>;
 
@@ -46,7 +47,7 @@ const Register = () => {
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   if (isLoading) {
-    return <div className="loader"></div>; // Replace with a Tailwind styled spinner
+    return <LoadingSpinner />;
   }
 
   return (

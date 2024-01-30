@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { setOrderBy } from "../redux/slices/filterSlice";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SideBar = () => {
   const dispatch = useAppDispatch();
@@ -10,7 +11,9 @@ const SideBar = () => {
     dispatch(setOrderBy(e.target.value));
   };
 
-  if (isLoading) return <div className="spinner"></div>;
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
 
   return (
     <>
