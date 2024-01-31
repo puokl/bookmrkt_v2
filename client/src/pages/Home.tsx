@@ -10,30 +10,9 @@ import { TypeOf } from "zod";
 type HomeProps = {};
 type CreateSessionInput = TypeOf<typeof createSessionSchema>;
 
-interface CustomPopupProps {
-  message: string;
-  onClose: () => void;
-}
-
-const CustomPopup: React.FC<CustomPopupProps> = ({ message, onClose }) => {
-  return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="p-4 bg-gray-800 bg-opacity-75 rounded-lg">
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <p className="text-gray-800">{message}</p>
-          <button
-            className="px-4 py-2 mt-4 text-white rounded-md bg-violet-800 hover:bg-violet-600 focus:outline-none focus:shadow-outline-violet"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Home: React.FC<HomeProps> = () => {
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -43,39 +22,14 @@ const Home: React.FC<HomeProps> = () => {
     password: "123456",
   };
 
-  // const handleLogin = async (credential: CreateSessionInput) => {
-  //   try {
-  //     dispatch(login(credential));
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log("handleLogin() error", error);
-  //   }
-  // };
-  const [loading, setLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-
   const handleLogin = async (credential: CreateSessionInput) => {
     try {
-      setLoading(true);
-
-      await dispatch(login(credential));
-
+      dispatch(login(credential));
       navigate("/");
     } catch (error) {
       console.log("handleLogin() error", error);
-    } finally {
-      setLoading(false);
-      setShowPopup(true);
     }
   };
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowPopup(false);
-    }, 2000);
-
-    return () => clearTimeout(timeoutId);
-  }, [showPopup]);
 
   return user ? (
     <>
@@ -113,15 +67,26 @@ const Home: React.FC<HomeProps> = () => {
             </p>
             <div className="flex flex-col items-center justify-center">
               <p>Register or test the application with a guest account</p>
-              {showPopup && (
-                <CustomPopup
-                  message="Please be aware that we're using a free hosting plan, and as a result, you may encounter a slight delay during the initial server load. This is known as a 'cold start' and can take up to 90 seconds. We appreciate your patience. Please wait while we get everything up and running for you."
-                  onClose={() => setShowPopup(false)}
-                />
-              )}
+
+              <p
+                className={`${
+                  isTooltipVisible ? "block" : "hidden"
+                } absolute bg-emerald-200 text-black px-4 py-2 rounded-lg -mt-40 w-72 text-center opacity-80`}
+              >
+                You may experience a cold start since the server is loaded on a
+                free instance type.
+                <br />
+                <u>It can take up to 90 seconds to load.</u>
+                <br />
+                Please wait.
+              </p>
+
+              {/* Button with hover effect */}
               <button
                 onClick={() => handleLogin(credential)}
-                className="px-4 py-2 mt-6 text-gray-100 rounded-lg pb-10font-bold bg-violet-800 hover:bg-violet-500"
+                className="relative px-4 py-2 mt-6 font-bold text-gray-100 rounded-lg bg-violet-800 hover:bg-violet-500"
+                onMouseEnter={() => setTooltipVisible(true)}
+                onMouseLeave={() => setTooltipVisible(false)}
               >
                 Login as a guest
               </button>

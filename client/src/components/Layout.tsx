@@ -117,7 +117,7 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex items-center w-full h-16 pl-2 pr-2 bg-emerald-200">
+      <div className="flex items-center w-full px-2 py-2 h-18 bg-emerald-200">
         <div className="flex items-center w-full h-full my-auto md:w-2/3">
           {user && (
             <div className="h-full ">
@@ -147,12 +147,12 @@ const Layout = () => {
               </div>
 
               <div
-                className="relative m-2 cursor-pointer"
+                className="relative m-2 "
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <img
-                  src={user.image}
+                  src={user.image || "/avatar.jpeg"}
                   alt={user.name}
                   className="w-10 h-10 rounded-full"
                 />
@@ -334,13 +334,13 @@ const Layout = () => {
           <div className="flex flex-row items-center justify-center w-1/3 mt-1">
             <a
               href="/login"
-              className="p-2 mb-0 mr-3 text-sm rounded bg-sky-400 hover:bg-sky-300 md:text-md"
+              className="p-2 mb-0 mr-3 text-sm rounded bg-cyan-400 hover:bg-cyan-300 md:text-md"
             >
               Login
             </a>
             <a
               href="/register"
-              className="p-2 text-sm rounded bg-sky-400 hover:bg-sky-300 md:text-md"
+              className="p-2 text-sm rounded bg-cyan-400 hover:bg-cyan-300 md:text-md"
             >
               Register
             </a>

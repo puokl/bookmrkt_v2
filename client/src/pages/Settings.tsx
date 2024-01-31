@@ -80,7 +80,7 @@ const Settings = () => {
             event.preventDefault();
             handleSubmitAvatar();
           }}
-          className="max-w-md p-4 mx-auto bg-white rounded shadow-md"
+          className="max-w-md p-4 mx-auto rounded-md shadow-md bg-stone-100"
         >
           <div className="mb-4">
             <label
@@ -99,14 +99,14 @@ const Settings = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+            className="w-full px-4 py-2 font-bold text-white rounded bg-cyan-500 hover:bg-cyan-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
           >
             Upload Picture
           </button>
 
           <button
             onClick={handleProfile}
-            className="w-full px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+            className="w-full px-4 py-2 mt-4 font-bold text-white rounded bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
           >
             Update Profile
           </button>

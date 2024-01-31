@@ -25,7 +25,7 @@ const UserProduct = () => {
 
   return (
     <>
-      <div className=" bg-emerald-100">
+      <div className="min-h-screen pb-8 bg-emerald-100">
         <div className="p-4 pt-4 ml-4 text-xl font-bold text-cyan-800">
           <h1>My Books</h1>
         </div>

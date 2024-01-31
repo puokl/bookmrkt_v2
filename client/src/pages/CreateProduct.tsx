@@ -156,13 +156,13 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div className=" bg-emerald-100">
+    <div className="h-screen bg-emerald-100">
       {/* <div className="flex flex-col items-center max-w-2xl mx-auto space-y-4 md:flex-row md:items-start md:space-y-0 md:space-x-4"> */}
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl pt-4 mx-auto">
         {/* <div className="flex flex-col w-full md:w-1/2">
           {productError && <p className="text-red-500">{productError}</p>} */}
         <form
-          className="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md"
+          className="p-8 mb-4 rounded-md shadow-md bg-stone-100"
           onSubmit={handleSubmit(handleProduct)}
         >
           {/* Product Error */}
@@ -273,7 +273,7 @@ const CreateProduct: React.FC = () => {
           {/* Upload Image Button */}
           <div className="mb-4">
             <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+              className="px-4 py-2 font-bold text-white rounded-full bg-cyan-500 hover:bg-cyan-700 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800"
               type="button"
               onClick={handleImageUpload}
             >
@@ -283,7 +283,7 @@ const CreateProduct: React.FC = () => {
           {/* Add Product Button */}
           <div className="mb-4">
             <button
-              className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+              className="px-4 py-2 font-bold text-white rounded-full bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
               type="submit"
             >
               Add Product

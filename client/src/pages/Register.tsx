@@ -51,7 +51,7 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen m-4">
+    <div className="flex items-center justify-center min-h-screen bg-emerald-100">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xs">
         <div className="mb-3">
           <label
@@ -129,9 +129,9 @@ const Register = () => {
         <div className="flex items-center justify-center mt-6">
           <button
             type="submit"
-            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+            className="px-4 py-2 tracking-wider rounded-md text-stone-700 bg-cyan-400 hover:bg-cyan-300"
           >
-            SUBMIT
+            LOGIN
           </button>
         </div>
       </form>
