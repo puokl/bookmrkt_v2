@@ -156,31 +156,21 @@ const CreateProduct: React.FC = () => {
       try {
         setProductError(null);
         setUploadSuccess(false);
-
-        console.log("first");
         const response = await dispatch(uploadProductImage(selectedFile));
-        console.log("dispatch(uploadProductImage done", selectedFile);
-        console.log("dispatch(uploadProductImage done", response);
 
         // Check if there was an error during uploadProductImage
         if (uploadProductImage.rejected.match(response)) {
-          // Log the rejection error
-          console.log("six");
           const errorToShow = response.error.message;
           if (errorToShow) setProductError(errorToShow);
-          console.log("errorMessage", errorMessage);
-          console.log("Rejected promise:", response.error.message);
 
           return;
         }
 
-        console.log("third");
         setUploadSuccess(true);
       } catch (error) {
         console.error("Error uploading image", error);
         setProductError("Error uploading image");
       } finally {
-        console.log("inside finally");
         setUploading(false);
       }
     }
@@ -188,8 +178,6 @@ const CreateProduct: React.FC = () => {
 
   const handleProduct = async (values: TemporaryCreateProductType) => {
     try {
-      console.log("productImage", productImage);
-      console.log("productImage.image", productImage.image);
       const data = {
         ...values,
         image: productImage || "",
@@ -197,7 +185,7 @@ const CreateProduct: React.FC = () => {
         condition: values.condition || "good",
         location: values.location || "",
       };
-      console.log("data in handleProduct", data);
+
       dispatch(createProduct(data));
       navigate("/");
     } catch (error: any) {

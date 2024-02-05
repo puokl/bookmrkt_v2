@@ -30,7 +30,6 @@ const Search = () => {
       return;
     }
 
-    // Fetch data
     (async () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_ENDPOINT}/api/search`,

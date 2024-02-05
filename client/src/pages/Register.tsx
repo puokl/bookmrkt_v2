@@ -26,7 +26,6 @@ const Register = () => {
 
   const onSubmit = async (values: CreateUserInput) => {
     try {
-      // console.log("values", values);
       dispatch(registerUser(values));
       navigate("/");
     } catch (e: any) {
@@ -34,7 +33,6 @@ const Register = () => {
       setRegisterError(e.response.data);
     }
   };
-  console.log("errors", { errors });
 
   useEffect(() => {
     if (isError) {

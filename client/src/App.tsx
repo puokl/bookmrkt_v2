@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
@@ -9,11 +8,8 @@ import Home from "./pages/Home";
 import Test from "./pages/Test";
 import Settings from "./pages/Settings";
 import CreateProduct from "./pages/CreateProduct";
-import User from "./pages/User";
 import DisplayProduct from "./pages/DisplayProduct";
 import Messages from "./pages/Messages";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { setAccessToken, selectAccessToken } from "./redux/slices/authSlice";
 import MyBooks from "./pages/MyBooks";
 
 function App() {

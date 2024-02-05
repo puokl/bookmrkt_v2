@@ -7,23 +7,6 @@ import filterReducer from "./slices/filterSlice";
 import apiMiddleware from "./slices/authMiddleware";
 import tokenReducer from "./slices/tokenSlice";
 
-// const rootReducer = {
-//   auth: authReducer,
-//   product: productReducer,
-//   chat: chatReducer,
-//   image: imageReducer,
-//   filter: filterReducer,
-// };
-
-// const store = configureStore({
-//   reducer: rootReducer,
-// });
-
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
-
-// export default store;
-
 const rootReducer = {
   token: tokenReducer,
   auth: authReducer,

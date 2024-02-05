@@ -12,7 +12,7 @@ const CustomToast: React.FC<CustomToastProps> = ({ message, onClose }) => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       onClose();
-    }, 3000); // Adjust the duration as needed
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -23,7 +23,7 @@ const CustomToast: React.FC<CustomToastProps> = ({ message, onClose }) => {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="bg-blue-900 text-white rounded-md shadow-md p-4 flex items-center justify-between">
+      <div className="flex items-center justify-between p-4 text-white bg-blue-900 rounded-md shadow-md">
         <div className="mr-4">
           <p>{message}</p>
         </div>
