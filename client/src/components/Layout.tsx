@@ -38,9 +38,9 @@ const menuItems = [
     hoverText: "addBook",
   },
   {
-    label: "Profile Settings",
+    label: "My Books",
     icon: FaUser,
-    href: "/user",
+    href: "/mybooks",
     hoverText: "addBook",
   },
   {
@@ -102,7 +102,9 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    // Disable scroll when mobile menu is open
+    // console.log("user from layout", user);
+    // console.log("user.email", user.email);
+    // Disable scroll on page when mobile menu is open
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -143,7 +145,9 @@ const Layout = () => {
             <div className="flex items-center justify-around">
               <div className="hidden m-3 xl:block">
                 <p className="text-xs">You are logged in as:</p>
-                <p className="text-sm font-bold">{user.email}</p>
+                <p className="text-sm font-bold">
+                  {user.email || user.user.email}
+                </p>
               </div>
 
               <div
@@ -152,7 +156,7 @@ const Layout = () => {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <img
-                  src={user.image || "/avatar.jpeg"}
+                  src={user.image || user.user.image || "/avatar.jpeg"}
                   alt={user.name}
                   className="w-10 h-10 rounded-full"
                 />
@@ -188,7 +192,7 @@ const Layout = () => {
                 </div>
                 <div className="mx-2 icon-container">
                   <a
-                    href="/user"
+                    href="/mybooks"
                     className="m-2 text-gray-600 hover:text-gray-800"
                     onMouseEnter={() => setHoveredIcon("profile")}
                     onMouseLeave={() => setHoveredIcon(null)}

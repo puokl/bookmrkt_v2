@@ -53,7 +53,7 @@ export async function getAllUserSentChatHandler(
   req: Request<UpdateChatInput["params"]>,
   res: Response
 ) {
-  console.log("res.locals", res.locals);
+  // console.log("res.locals", res.locals);
   const userId = res.locals.user._id;
   const chat = await findAllUserSentChat(userId);
   if (!chat) {

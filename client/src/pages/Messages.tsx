@@ -175,7 +175,7 @@ const Messages = () => {
                   filteredChat.map((item: chatType) => (
                     <div
                       key={item._id}
-                      className={`flex-shrink-0 p-2 m-1 border border-red-500 bg-gray-100 rounded-md cursor-pointer hover:bg-gray-200 lg:flex-col ${
+                      className={`flex-shrink-0 p-2 m-1 border border-cyan-800 bg-cyan-50 rounded-md cursor-pointer hover:bg-cyan-100 lg:flex-col ${
                         selectedChatId === item?._id ? "bg-gray-200" : ""
                       }`}
                       onClick={(event) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeOf } from "zod";
@@ -6,18 +6,20 @@ import { createProductSchema } from "../schema/productSchema";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { updateProduct } from "../redux/slices/productSlice";
 import { uploadProductImage } from "../redux/slices/imageSlice";
+import { useNavigate } from "react-router-dom";
 
 export type temporaryCreateProductType = {
   title: string;
   author: string;
   price: number;
-  year: number;
-  pages: number;
+  year: string;
+  pages: string;
   language: string;
   user?: string;
   description?: string;
   condition: string;
-  location: string;
+  location?: string;
+  image?: string;
 };
 type EditProductFormProps = {
   product: any;
@@ -38,6 +40,107 @@ type FieldID =
   | "pages"
   | "user"
   | "description";
+// | "image";
+
+const fields: {
+  id: FieldID;
+  label: string;
+  type: string;
+  placeholder: string;
+  required?: boolean;
+  options?: string[];
+}[] = [
+  {
+    id: "title",
+    label: "Title",
+    type: "text",
+    placeholder: "Enter book title",
+    required: true,
+  },
+  {
+    id: "author",
+    label: "Author",
+    type: "text",
+    placeholder: "Enter book author",
+    required: true,
+  },
+  {
+    id: "price",
+    label: "Price",
+    type: "number",
+    placeholder: "Enter book price",
+    required: true,
+  },
+  {
+    id: "language",
+    label: "Language",
+    type: "text",
+    placeholder: "Enter book language",
+    required: false,
+    options: ["IT", "EN", "ES", "PT", "FR", "DE", "NL", "other"],
+  },
+
+  {
+    id: "pages",
+    label: "Pages",
+    type: "text",
+    placeholder: "Enter number of pages",
+    required: false,
+    options: ["1-50", "50-100", "100-200", "200-300", "300-400", "+400"],
+  },
+  {
+    id: "year",
+    label: "Year",
+    type: "text",
+    placeholder: "Enter publication year",
+    required: false,
+    options: [
+      "-1970",
+      "1970-80",
+      "1980-90",
+      "1990-00",
+      "2000-10",
+      "2010-20",
+      "2020-",
+    ],
+  },
+  {
+    id: "condition",
+    label: "Condition",
+    type: "text",
+    placeholder: "Enter book condition",
+    required: false,
+    options: [
+      "brand new",
+      "like new",
+      "very good",
+      "good",
+      "acceptable",
+      "poor",
+    ],
+  },
+  {
+    id: "location",
+    label: "Location",
+    type: "text",
+    placeholder: "Enter book location",
+    required: false,
+  },
+  {
+    id: "description",
+    label: "Description",
+    type: "text",
+    placeholder: "Enter description",
+    required: false,
+  },
+  // {
+  //   id: "image",
+  //   label: "image",
+  //   type: "file",
+  //   placeholder: "Enteran image",
+  //   required: false,
+  // },
+];
 
 export type parametriType = {
   productID: string;
@@ -56,25 +159,63 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
   const { productImage } = useAppSelector((state) => state.image);
   const [selectedFile, setSelectedFile] = useState<File | string>("");
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
+  const [productError, setProductError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<ProductInput>({
     resolver: zodResolver(createProductSchema),
   });
 
-  const handleImageUpload = () => {
-    if (typeof selectedFile !== "string")
-      dispatch(uploadProductImage(selectedFile));
+  const errorMessage = useAppSelector(
+    (state) => state.image.errorMessage
+  ) as string;
+
+  const handleImageUpload = async () => {
+    if (selectedFile instanceof File) {
+      setUploading(true);
+      try {
+        setProductError(null);
+        setUploadSuccess(false);
+
+        const response = await dispatch(uploadProductImage(selectedFile));
+
+        if (uploadProductImage.rejected.match(response)) {
+          const errorToShow = response.error.message;
+          if (errorToShow) setProductError(errorToShow);
+
+          return;
+        }
+
+        setUploadSuccess(true);
+      } catch (error) {
+        console.error("Error uploading image", error);
+        setUploading(false);
+      } finally {
+        console.log("inside finally");
+        setUploading(false);
+      }
+    }
   };
 
   const handleUpdate = async (values: temporaryCreateProductType) => {
     try {
       if (productId) {
         const productID = productId;
-        const data = { ...values, image: productImage };
+
+        // Check if a new image is uploaded, use existing image if not
+        const updatedImage =
+          selectedFile instanceof File ? productImage : product.image;
+
+        const data = { ...values, image: updatedImage };
         const parametri = { productID, data };
+        console.log("parametri", parametri);
         dispatch(updateProduct({ parametri }));
         setIsEditing(false);
       } else {
@@ -84,134 +225,173 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
       console.log("error on handleupdate", error);
     }
   };
-  const typedErrors = errors as FieldValues;
 
-  const mandatoryFields: FieldID[] = ["title", "author", "price"];
+  const handleCancel = () => {
+    setIsEditing(false);
+    navigate(-1);
+  };
 
-  const fields: {
-    id: FieldID;
-    label: string;
-    type: string;
-    placeholder: string;
-  }[] = [
-    {
-      id: "title",
-      label: "Title",
-      type: "text",
-      placeholder: "Enter book title",
-    },
-    {
-      id: "author",
-      label: "Author",
-      type: "text",
-      placeholder: "Enter book author",
-    },
-    {
-      id: "price",
-      label: "Price",
-      type: "number",
-      placeholder: "Enter book price",
-    },
-    {
-      id: "language",
-      label: "Language",
-      type: "text",
-      placeholder: "Enter book language",
-    },
-    {
-      id: "description",
-      label: "Description",
-      type: "text",
-      placeholder: "Enter description",
-    },
-    {
-      id: "pages",
-      label: "Pages",
-      type: "number",
-      placeholder: "Enter number of pages",
-    },
-    {
-      id: "year",
-      label: "Year",
-      type: "number",
-      placeholder: "Enter publication year",
-    },
-    {
-      id: "condition",
-      label: "Condition",
-      type: "text",
-      placeholder: "Enter book condition",
-    },
-    {
-      id: "location",
-      label: "Location",
-      type: "text",
-      placeholder: "Enter book location",
-    },
-  ];
-
-  const isMandatory = (fieldId: FieldID) => mandatoryFields.includes(fieldId);
+  useEffect(() => {
+    for (const field of fields) {
+      setValue(field.id, product[field.id]);
+    }
+    console.log("product", product);
+  }, [product, setValue]);
 
   return (
     <>
-      <p className="text-xl">Hi from EditProductForm</p>
-      <div className="flex justify-center h-screen bg-emerald-100">
-        <div className="flex flex-col w-full max-w-screen-md m-5 space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+      <div className="min-h-screen pb-4 bg-emerald-100">
+        <div className="max-w-4xl pt-4 mx-auto">
           <form
+            className="p-8 pb-4 rounded-md shadow-md bg-stone-100"
             onSubmit={handleSubmit(handleUpdate)}
-            className="flex flex-col p-6 md:w-1/2"
           >
-            {fields
-              .filter((field) => mandatoryFields.includes(field.id))
-              .map((field) => (
-                <div key={field.id} className="flex flex-col mb-4">
-                  <label className="block mb-1" htmlFor={field.id}>
-                    {field.label}{" "}
-                    {mandatoryFields.includes(field.id) && (
-                      <span className="text-red-500">*</span>
+            {productError && (
+              <p className="mb-4 text-sm text-red-500">{productError}</p>
+            )}
+            {/* Required Fields */}
+            <div className="flex flex-wrap -mx-2">
+              {fields
+                .filter((field) => field.required)
+                .map((field) => (
+                  <div key={field.id} className="w-full px-2 mb-4 md:w-1/2">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700"
+                      htmlFor={field.id}
+                    >
+                      {field.label} <span className="text-red-500">*</span>
+                    </label>
+                    {field.id === "language" ||
+                    field.id === "condition" ||
+                    field.id === "pages" ||
+                    field.id === "year" ? (
+                      <select
+                        id={field.id}
+                        className="w-full p-2 border border-gray-300 rounded"
+                        {...register(field.id)}
+                      >
+                        <option value=""> {product[field.id]}</option>
+                        {field.options?.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        id={field.id}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        className="w-full p-2 border border-gray-300 rounded"
+                        {...register(field.id, {
+                          valueAsNumber: field.type === "number",
+                        })}
+                        defaultValue={product[field.id]}
+                      />
                     )}
-                  </label>
-                  <input
-                    id={field.id}
-                    type={field.type}
-                    defaultValue={product[field.id]}
-                    placeholder={field.placeholder}
-                    className="p-2 mb-2 border border-gray-300 rounded input"
-                    {...register(field.id, {
-                      valueAsNumber: field.type === "number",
-                    })}
-                  />
-                  <p className="text-red-500">
-                    {typedErrors?.[field.id]?.message?.toString()}
-                  </p>
-                </div>
-              ))}
-            {/*rest of the form */}
+                    <p className="mt-1 text-red-500">
+                      {errors?.[field.id]?.message?.toString()}
+                    </p>
+                  </div>
+                ))}
+            </div>
+            {/* Non-required Fields */}
+            <div className="flex flex-wrap -mx-2">
+              {fields
+                .filter((field) => !field.required)
+                .map((field) => (
+                  <div key={field.id} className="w-full px-2 mb-4 md:w-1/2">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700"
+                      htmlFor={field.id}
+                    >
+                      {field.label}
+                    </label>
+                    {field.id === "language" ||
+                    field.id === "condition" ||
+                    field.id === "pages" ||
+                    field.id === "year" ? (
+                      <select
+                        id={field.id}
+                        className="w-full p-2 border border-gray-300 rounded"
+                        {...register(field.id)}
+                      >
+                        <option value=""> {product[field.id]}</option>
+                        {field.options?.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        id={field.id}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        className="w-full p-2 border border-gray-300 rounded"
+                        {...register(field.id, {
+                          valueAsNumber: field.type === "number",
+                        })}
+                        defaultValue={product[field.id]}
+                      />
+                    )}
+                    <p className="mt-1 text-red-500">
+                      {errors?.[field.id]?.message?.toString()}
+                    </p>
+                  </div>
+                ))}
+            </div>
+            <div className="flex items-center mb-4">
+              <label
+                className="block mr-2 text-sm font-bold text-gray-700"
+                htmlFor="file"
+              >
+                Upload New Image
+              </label>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                onChange={(e) => setSelectedFile(e.target.files?.[0] ?? "")}
+                className="w-3/5 p-2 border border-gray-300 rounded-lg"
+              />
+              <button
+                className={`${
+                  uploading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-cyan-700"
+                } px-2 py-2 ml-4 font-bold text-white rounded-lg bg-cyan-500 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800`}
+                type="button"
+                onClick={handleImageUpload}
+                disabled={uploading}
+              >
+                {uploading ? "Uploading..." : "Upload Image"}
+              </button>
+            </div>
+            {productError && (
+              <p className="mb-4 text-sm text-red-500">{productError}</p>
+            )}
+            {uploadSuccess && (
+              <p className="mb-4 text-sm text-green-500">
+                Image uploaded successfully!
+              </p>
+            )}
+            <hr className="my-8 border-t border-gray-300" />
+            <div className="mb-4">
+              <button
+                className="px-4 py-2 font-bold text-white rounded-full bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+                type="submit"
+              >
+                Update Product
+              </button>
+              <button
+                className="px-4 py-2 mr-4 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline-red active:bg-red-800"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
-          <div className="flex flex-col md:w-1/2">
-            {fields
-              .filter((field) => !mandatoryFields.includes(field.id))
-              .map((field) => (
-                <div key={field.id} className="flex flex-col mb-4">
-                  <label className="block mb-1" htmlFor={field.id}>
-                    {field.label}
-                  </label>
-                  <input
-                    id={field.id}
-                    type={field.type}
-                    defaultValue={product[field.id]}
-                    placeholder={field.placeholder}
-                    className="p-2 mb-2 border border-gray-300 rounded input"
-                    {...register(field.id, {
-                      valueAsNumber: field.type === "number",
-                    })}
-                  />
-                  <p className="text-red-500">
-                    {typedErrors?.[field.id]?.message?.toString()}
-                  </p>
-                </div>
-              ))}
-          </div>
         </div>
       </div>
     </>

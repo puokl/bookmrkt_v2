@@ -24,10 +24,10 @@ export async function createUserSessionHandler(req: Request, res: Response) {
       console.log("no user in create session handler");
       return res.status(401).send("Invalid email or password");
     }
-    console.log("user", user);
+    // console.log("user", user);
     // 2. create a session
     const session = await createSession(user._id, req.get("user-agent") || "");
-    console.log("session", session);
+    // console.log("session", session);
 
     // 3. create an access token
     const accessToken = signJwt(

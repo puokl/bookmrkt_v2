@@ -69,11 +69,11 @@ export interface VerifyJwtResult {
 
 export function verifyJwt(token: string): VerifyJwtResult {
   try {
-    console.log("TOKEN", token);
-    console.log("PRIVATEKEY", privateKey);
+    // console.log("TOKEN", token);
+    // console.log("PRIVATEKEY", privateKey);
     const decoded = jwt.verify(token, privateKey) as VerifyJwtResult["decoded"];
 
-    console.log("decoded inside verifyjwt", decoded);
+    // console.log("decoded inside verifyjwt", decoded);
 
     return {
       valid: true,

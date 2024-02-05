@@ -28,7 +28,7 @@ export async function createProductHandler(
     userId: userID,
     username: userName,
   });
-  console.log("product", product);
+  // console.log("product", product);
   return res.send(product);
 }
 
@@ -118,7 +118,7 @@ export async function getAllProductHandler(
   if (!product) {
     return res.sendStatus(404);
   }
-  console.log("Response Headers: in server", res.getHeaders());
+  // console.log("Response Headers: in server", res.getHeaders());
   return res.send(product);
 }
 
@@ -131,7 +131,7 @@ export async function getAllUserProductHandler(
 ) {
   try {
     const userId = res.locals.user._id;
-    console.log("res.locals", res.locals);
+    // console.log("res.locals", res.locals);
     const product = await findAllUserProduct(userId);
 
     if (!product) {

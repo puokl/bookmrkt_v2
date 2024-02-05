@@ -19,6 +19,25 @@ const languageEnum = z.enum([
   "other",
 ]);
 
+const pagesEnum = z.enum([
+  "1-50",
+  "50-100",
+  "100-200",
+  "200-300",
+  "300-400",
+  "+400",
+]);
+
+const yearEnum = z.enum([
+  "-1970",
+  "1970-80",
+  "1980-90",
+  "1990-00",
+  "2000-10",
+  "2010-20",
+  "2020-",
+]);
+
 const payload = {
   body: object({
     title: string({ required_error: "Title is required" }),
@@ -34,8 +53,10 @@ const payload = {
     // condition: string({ required_error: "Condition is required" }),
     // language: string({ required_error: "Language is required" }),
     image: string().optional(),
-    pages: number({ required_error: "Pages is required" }),
-    year: number({ required_error: "Year is required" }),
+    // pages: number({ required_error: "Pages is required" }),
+    pages: pagesEnum,
+    year: yearEnum,
+    // year: number({ required_error: "Year is required" }),
     userId: string().optional(),
     userName: string().optional(),
     location: string().optional(),

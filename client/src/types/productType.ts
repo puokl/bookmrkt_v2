@@ -9,9 +9,9 @@ export type productType = {
   title: string;
   language: string;
   condition: string;
-  location: string;
-  year?: number;
-  pages?: number;
+  location?: string;
+  year?: string;
+  pages?: string;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

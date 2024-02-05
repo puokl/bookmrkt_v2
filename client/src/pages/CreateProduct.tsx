@@ -58,26 +58,30 @@ const fields: {
     required: false,
     options: ["IT", "EN", "ES", "PT", "FR", "DE", "NL", "other"],
   },
-  {
-    id: "description",
-    label: "Description",
-    type: "text",
-    placeholder: "Enter description",
-    required: false,
-  },
+
   {
     id: "pages",
     label: "Pages",
-    type: "number",
+    type: "text",
     placeholder: "Enter number of pages",
     required: false,
+    options: ["1-50", "50-100", "100-200", "200-300", "300-400", "+400"],
   },
   {
     id: "year",
     label: "Year",
-    type: "number",
+    type: "text",
     placeholder: "Enter publication year",
     required: false,
+    options: [
+      "-1970",
+      "1970-80",
+      "1980-90",
+      "1990-00",
+      "2000-10",
+      "2010-20",
+      "2020-",
+    ],
   },
   {
     id: "condition",
@@ -101,15 +105,29 @@ const fields: {
     placeholder: "Enter book location",
     required: false,
   },
+  {
+    id: "description",
+    label: "Description",
+    type: "text",
+    placeholder: "Enter description",
+    required: false,
+  },
 ];
 
 const CreateProduct: React.FC = () => {
-  const [productError, setProductError] = useState(null);
+  const [productError, setProductError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | string>("");
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
 
   const { productImage } = useAppSelector((state: any) => state.image);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const isError = useAppSelector((state) => state.image.isError);
+  const errorMessage = useAppSelector(
+    (state) => state.image.errorMessage
+  ) as string;
 
   const {
     register,
@@ -125,28 +143,61 @@ const CreateProduct: React.FC = () => {
     price: number;
     language?: string;
     description?: string;
-    year?: number;
+    year?: string;
     condition?: string;
-    pages?: number;
+    pages?: string;
     image?: string;
     location?: string;
   };
 
-  const handleImageUpload = () => {
-    if (typeof selectedFile !== "string")
-      dispatch(uploadProductImage(selectedFile));
+  const handleImageUpload = async () => {
+    if (typeof selectedFile !== "string") {
+      setUploading(true);
+      try {
+        setProductError(null);
+        setUploadSuccess(false);
+
+        console.log("first");
+        const response = await dispatch(uploadProductImage(selectedFile));
+        console.log("dispatch(uploadProductImage done", selectedFile);
+        console.log("dispatch(uploadProductImage done", response);
+
+        // Check if there was an error during uploadProductImage
+        if (uploadProductImage.rejected.match(response)) {
+          // Log the rejection error
+          console.log("six");
+          const errorToShow = response.error.message;
+          if (errorToShow) setProductError(errorToShow);
+          console.log("errorMessage", errorMessage);
+          console.log("Rejected promise:", response.error.message);
+
+          return;
+        }
+
+        console.log("third");
+        setUploadSuccess(true);
+      } catch (error) {
+        console.error("Error uploading image", error);
+        setProductError("Error uploading image");
+      } finally {
+        console.log("inside finally");
+        setUploading(false);
+      }
+    }
   };
 
   const handleProduct = async (values: TemporaryCreateProductType) => {
     try {
+      console.log("productImage", productImage);
+      console.log("productImage.image", productImage.image);
       const data = {
         ...values,
-        image: productImage.image || "",
+        image: productImage || "",
         language: values.language || "EN",
         condition: values.condition || "good",
         location: values.location || "",
       };
-
+      console.log("data in handleProduct", data);
       dispatch(createProduct(data));
       navigate("/");
     } catch (error: any) {
@@ -156,13 +207,13 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div className="h-screen bg-emerald-100">
+    <div className="min-h-screen pb-4 bg-emerald-100">
       {/* <div className="flex flex-col items-center max-w-2xl mx-auto space-y-4 md:flex-row md:items-start md:space-y-0 md:space-x-4"> */}
-      <div className="max-w-4xl pt-4 mx-auto">
+      <div className="max-w-4xl pt-4 mx-auto ">
         {/* <div className="flex flex-col w-full md:w-1/2">
           {productError && <p className="text-red-500">{productError}</p>} */}
         <form
-          className="p-8 mb-4 rounded-md shadow-md bg-stone-100"
+          className="p-8 pb-4 rounded-md shadow-md bg-stone-100"
           onSubmit={handleSubmit(handleProduct)}
         >
           {/* Product Error */}
@@ -181,7 +232,10 @@ const CreateProduct: React.FC = () => {
                   >
                     {field.label} <span className="text-red-500">*</span>
                   </label>
-                  {field.id === "language" || field.id === "condition" ? (
+                  {field.id === "language" ||
+                  field.id === "condition" ||
+                  field.id === "pages" ||
+                  field.id === "year" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -224,7 +278,10 @@ const CreateProduct: React.FC = () => {
                   >
                     {field.label}
                   </label>
-                  {field.id === "language" || field.id === "condition" ? (
+                  {field.id === "language" ||
+                  field.id === "condition" ||
+                  field.id === "pages" ||
+                  field.id === "year" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -255,9 +312,9 @@ const CreateProduct: React.FC = () => {
               ))}
           </div>
           {/* File Input */}
-          <div className="mb-4">
+          <div className="flex items-center mb-4">
             <label
-              className="block mb-2 text-sm font-bold text-gray-700"
+              className="block mr-2 text-sm font-bold text-gray-700"
               htmlFor="file"
             >
               Upload Image
@@ -267,20 +324,34 @@ const CreateProduct: React.FC = () => {
               name="file"
               id="file"
               onChange={(e) => setSelectedFile(e.target.files?.[0] ?? "")}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-3/5 p-2 border border-gray-300 rounded-lg"
             />
-          </div>
-          {/* Upload Image Button */}
-          <div className="mb-4">
             <button
-              className="px-4 py-2 font-bold text-white rounded-full bg-cyan-500 hover:bg-cyan-700 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800"
+              className={`${
+                uploading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-cyan-700"
+              } px-2 py-2 ml-4 font-bold text-white rounded-lg bg-cyan-500 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800`}
               type="button"
               onClick={handleImageUpload}
+              disabled={uploading}
             >
-              Upload Image
+              {uploading ? "Uploading..." : "Upload Image"}
             </button>
           </div>
-          {/* Add Product Button */}
+          {/* Product Error */}
+          {productError && (
+            <p className="mb-4 text-sm text-red-500">{productError}</p>
+          )}
+
+          {/* Upload Success Message */}
+          {uploadSuccess && (
+            <p className="mb-4 text-sm text-green-500">
+              Image uploaded successfully!
+            </p>
+          )}
+
+          <hr className="my-8 border-t border-gray-300" />
           <div className="mb-4">
             <button
               className="px-4 py-2 font-bold text-white rounded-full bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"

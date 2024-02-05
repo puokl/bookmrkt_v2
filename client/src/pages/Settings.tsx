@@ -9,11 +9,13 @@ const Settings = () => {
   const { avatar } = useAppSelector((state) => state.image);
 
   const [selectedFile, setSelectedFile] = useState<File | string>("");
-
+  const [isUploading, setIsUploading] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleSubmitAvatar = async () => {
     try {
+      setIsUploading(true);
+
       if (selectedFile instanceof File) {
         dispatch(uploadAvatar(selectedFile));
       } else {
@@ -21,6 +23,8 @@ const Settings = () => {
       }
     } catch (error: any) {
       console.log("handleSubmitAvatar() error", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -44,19 +48,15 @@ const Settings = () => {
         selectedFile instanceof File ||
         (typeof selectedFile === "string" && selectedFile)
       ) {
-        console.log("user inside handle profile", user);
         const data: updateProfileType = {
           avatar: { image: avatar },
           userId: user._id,
         };
-        console.log("data in handleProfile", data);
-        // dispatch(updateProfile(data));
+
         dispatch(updateProfile(data)).then(() => {
           // Reload the page after the dispatch is complete
           window.location.reload();
         });
-
-        console.log("user after dispatch", user);
       } else {
         console.log("No file selected");
       }
@@ -71,10 +71,7 @@ const Settings = () => {
 
   return (
     <>
-      <div className="h-screen pt-20 bg-emerald-100">
-        {/* <p className="mb-2 text-lg font-semibold">Settings</p> */}
-        {/* <p className="mb-4">Hi {user?.name}</p> */}
-
+      <div className="min-h-screen pt-20 bg-emerald-100">
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -95,20 +92,23 @@ const Settings = () => {
               id="file"
               className="w-full p-2 border rounded"
               onChange={handleAttachFile}
+              disabled={isUploading}
             />
           </div>
           <button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white rounded bg-cyan-500 hover:bg-cyan-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+            disabled={isUploading}
           >
-            Upload Picture
+            {isUploading ? "Uploading..." : "Upload Picture"}
           </button>
 
           <button
             onClick={handleProfile}
             className="w-full px-4 py-2 mt-4 font-bold text-white rounded bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+            disabled={isUploading || !selectedFile}
           >
-            Update Profile
+            {isUploading ? "Updating..." : "Update Profile"}
           </button>
         </form>
       </div>

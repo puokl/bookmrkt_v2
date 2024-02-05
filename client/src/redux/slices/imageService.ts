@@ -32,9 +32,12 @@ const uploadProductImage = async (imageUrl: File) => {
       formData,
       { headers }
     );
+    console.log("response in uploadProductImage", response);
+    console.log("response in uploadProductImage response.data", response.data);
     return response.data;
   } catch (error) {
     console.log("error", error);
+    throw error;
   }
 };
 

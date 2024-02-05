@@ -14,6 +14,7 @@ import DisplayProduct from "./pages/DisplayProduct";
 import Messages from "./pages/Messages";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { setAccessToken, selectAccessToken } from "./redux/slices/authSlice";
+import MyBooks from "./pages/MyBooks";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
 
         <Route path="test" element={<Test />} />
         {/* protected routes */}
-        <Route path="user" element={<User />} />
+        <Route path="mybooks" element={<MyBooks />} />
 
         {/* catch all */}
         <Route path="*" element={<Missing />} />

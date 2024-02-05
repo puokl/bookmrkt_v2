@@ -12,9 +12,9 @@ export interface ProductInput {
   description: string;
   price: number;
   image?: string;
-  pages: number;
+  pages: string;
   language: string;
-  year: number;
+  year: string;
   location?: string;
   condition: string;
 }
@@ -62,8 +62,28 @@ const productSchema = new mongoose.Schema(
       default: "EN",
     },
     image: { type: String, required: false },
-    pages: { type: Number, required: true },
-    year: { type: Number, required: true },
+    // pages: { type: Number, required: true },
+    pages: {
+      type: String,
+      required: true,
+      enum: ["1-50", "50-100", "100-200", "200-300", "300-400", "+400"],
+      default: "1-50",
+    },
+    // year: { type: Number, required: true },
+    year: {
+      type: String,
+      required: true,
+      enum: [
+        "-1970",
+        "1970-80",
+        "1980-90",
+        "1990-00",
+        "2000-10",
+        "2010-20",
+        "2020-",
+      ],
+      default: "2020-",
+    },
     location: { type: String, required: false },
   },
   { timestamps: true }

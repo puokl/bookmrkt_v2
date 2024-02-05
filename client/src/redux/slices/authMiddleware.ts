@@ -47,21 +47,16 @@ const apiMiddleware: Middleware =
   ({ getState, dispatch }) =>
   (next) =>
   async (action) => {
-    console.log("first");
     if (action.type.endsWith("/fulfilled")) {
       // Assuming that the payload is the Axios response
       const response = action.payload;
 
-      console.log("second", response);
-
       // Check if the response is defined and contains the headers property
       if (response) {
-        console.log("third");
-
         const newAccessToken = response.newAccessToken;
 
         if (newAccessToken) {
-          console.log("inside authmiddleware token", newAccessToken);
+          // console.log("inside authmiddleware token", newAccessToken);
           // Dispatch an action to set the new access token in the state
           sessionStorage.setItem("accessToken", newAccessToken);
           dispatch(setAccessToken(newAccessToken));

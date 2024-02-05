@@ -34,9 +34,9 @@ const getAllProduct = async () => {
     { headers }
   );
   //FIXME - fix get product controller in backend, it seems miss middleware
-  console.log("RESPONSE", response);
+  // console.log("RESPONSE", response);
   const newAccessToken = response.headers["x-new-access-token"];
-  console.log("New Access Token:", newAccessToken);
+  // console.log("New Access Token:", newAccessToken);
   // return response.data;
   return response;
 };
@@ -60,13 +60,12 @@ const getAllUserProduct = async () => {
   // console.log("refreshToken", refreshToken);
 
   try {
-    console.log("first");
     const response = await axios.get(
       `${process.env.REACT_APP_ENDPOINT}/api/userproducts`,
       { headers }
     );
-    console.log("second");
-    console.log("response", response);
+
+    // console.log("response", response);
     // FIXME - fix get product controller in backend, it seems miss middleware
     return response.data;
   } catch (error) {

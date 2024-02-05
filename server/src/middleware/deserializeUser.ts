@@ -10,9 +10,8 @@ const deserializeUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Request Headers:", req.headers);
+  // console.log("Request Headers:", req.headers);
 
-  console.log("first");
   // const accessToken = get(req, "headers.authorization", "").replace(
   //   /^Bearer\s/,
   //   ""
@@ -20,41 +19,41 @@ const deserializeUser = async (
   const authorizationHeader = req.get("authorization");
   const xRefreshTokenHeader = req.get("x-refresh-token");
 
-  console.log("Authorization Header:", authorizationHeader);
-  console.log("X-Refresh-Token Header:", xRefreshTokenHeader);
+  // console.log("Authorization Header:", authorizationHeader);
+  // console.log("X-Refresh-Token Header:", xRefreshTokenHeader);
   const accessToken = get(req, "headers.authorization", "");
-  console.log("accessToken", get(req, "headers.authorization", ""));
+  // console.log("accessToken", get(req, "headers.authorization", ""));
   const refreshTokens = get(req, "headers.x-refresh-token");
   // Handle the case where x-refresh may be an array
-  console.log("refreshTokens", refreshTokens);
+  // console.log("refreshTokens", refreshTokens);
   const refreshToken = isArray(refreshTokens)
     ? refreshTokens[0]
     : refreshTokens;
-  console.log("refreshToken", refreshToken);
+  // console.log("refreshToken", refreshToken);
 
   const { decoded } = verifyJwt(accessToken);
 
   if (decoded) {
     res.locals.user = decoded;
-    console.log("res.locals.user with accesstoken", res.locals.user);
+    // console.log("res.locals.user with accesstoken", res.locals.user);
     return next();
   }
 
   if (!accessToken && refreshToken) {
     console.log("EXPIRED");
     const newAccessToken = await reIssueAccessToken({ refreshToken });
-    console.log("newAccessToken", newAccessToken);
+    // console.log("newAccessToken", newAccessToken);
 
     if (newAccessToken) {
       // res.setHeader("Authorization", `Bearer ${newAccessToken}`);
       res.setHeader("X-New-Access-Token", newAccessToken);
-      console.log("Response Headers:", res.getHeaders());
+      // console.log("Response Headers:", res.getHeaders());
     }
 
     const result = verifyJwt(newAccessToken as string);
-    console.log("result", result);
+    // console.log("result", result);
     res.locals.user = result.decoded;
-    console.log("res.locals.user with refreshtoken", res.locals.user);
+    // console.log("res.locals.user with refreshtoken", res.locals.user);
 
     return next();
   }

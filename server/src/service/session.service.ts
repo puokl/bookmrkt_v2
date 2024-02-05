@@ -59,8 +59,8 @@ export async function reIssueAccessToken({
   refreshToken: string;
 }) {
   const { decoded } = verifyJwt(refreshToken);
-  console.log("refreshtoken", refreshToken);
-  console.log("decoded in reIssueAccessToken", decoded);
+  // console.log("refreshtoken", refreshToken);
+  // console.log("decoded in reIssueAccessToken", decoded);
   if (!decoded || !decoded.session) {
     return false; // Ensure session information is present in the decoded payload
   }
@@ -81,6 +81,6 @@ export async function reIssueAccessToken({
     { expiresIn: "1d" }
   );
 
-  console.log("newAccessToken", newAccessToken);
+  // console.log("newAccessToken", newAccessToken);
   return newAccessToken;
 }
