@@ -11,11 +11,9 @@ import LoadingSpinner from "./LoadingSpinner";
 const ProductList = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const [hoveredProduct, setHoveredProduct] = useState<productType | null>(
     null
   );
-
   const [displayedProductsCount, setDisplayedProductsCount] = useState(12);
 
   const handleLoadMore = () => {
@@ -26,7 +24,9 @@ const ProductList = () => {
     (state: any) => state.product
   ) as { products: productType[]; isLoading: boolean };
 
-  const { orderBy } = useAppSelector((state) => state.filter);
+  const { orderBy, selectedLanguage, selectedLocation } = useAppSelector(
+    (state) => state.filter
+  );
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -51,9 +51,84 @@ const ProductList = () => {
     }
   };
 
-  const filteredProducts = orderBy
-    ? [...products].sort(getSortFunction(orderBy))
-    : [...products];
+  // const filteredProducts = orderBy
+  //   ? [...products].sort(getSortFunction(orderBy))
+  //   : [...products];
+  // // Apply language filter
+  // const filterProductsByLanguage = (
+  //   products: productType[],
+  //   language: string | null
+  // ) => {
+  //   return language
+  //     ? products.filter((product) => product.language === language)
+  //     : products;
+  // };
+
+  // const filteredProductsByLanguage = filterProductsByLanguage(
+  //   filteredProducts,
+  //   selectedLanguage
+  // );
+
+  // const applyFilters = (
+  //   products: productType[],
+  //   orderBy: string,
+  //   language: string | null
+  // ) => {
+  //   let filteredProducts = products;
+
+  //   // Apply orderBy filter
+  //   if (orderBy) {
+  //     filteredProducts = [...filteredProducts].sort(getSortFunction(orderBy));
+  //   }
+
+  //   // Apply language filter
+  //   if (language) {
+  //     filteredProducts = filteredProducts.filter(
+  //       (product) => product.language === language
+  //     );
+  //   }
+
+  //   return filteredProducts;
+  // };
+
+  // const filteredProducts = applyFilters(products, orderBy, selectedLanguage);
+
+  const applyFilters = (
+    products: productType[],
+    orderBy: string,
+    language: string | null,
+    location: string | null
+  ) => {
+    let filteredProducts = [...products];
+
+    // Apply orderBy filter
+    if (orderBy) {
+      filteredProducts = filteredProducts.sort(getSortFunction(orderBy));
+    }
+
+    // Apply language filter
+    if (language) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.language === language
+      );
+    }
+
+    // Apply location filter
+    if (location) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.location === location
+      );
+    }
+
+    return filteredProducts;
+  };
+
+  const filteredProducts = applyFilters(
+    products,
+    orderBy,
+    selectedLanguage,
+    selectedLocation
+  );
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -120,6 +195,10 @@ const ProductList = () => {
                             <strong>Condition: </strong>
                             {item.condition}
                           </p>
+                          <p className="text-sm">
+                            <strong>Category: </strong>
+                            {item.category}
+                          </p>
                         </div>
                         <div className="mb-2">
                           <p className="text-sm">
@@ -138,7 +217,7 @@ const ProductList = () => {
                 </div>
               ))}
         </div>
-        <div className="flex justify-center py-6 bg-green-100">
+        <div className="flex justify-center py-6 ">
           {filteredProducts &&
             filteredProducts.length > displayedProductsCount && (
               <button

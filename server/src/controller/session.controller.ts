@@ -11,7 +11,6 @@ import {
   updateSession,
 } from "../service/session.service";
 import { signJwt } from "../utils/jwt.utils";
-// import log from "../utils/logger";
 
 // @desc    Create a user's session
 // @route   POST /api/sessions

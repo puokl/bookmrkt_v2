@@ -37,6 +37,15 @@ const yearEnum = z.enum([
   "2010-20",
   "2020-",
 ]);
+const categoryEnum = z.enum([
+  "novel",
+  "essay",
+  "sport",
+  "kids",
+  "biography",
+  "cookbook",
+  "others",
+]);
 
 const payload = {
   body: object({
@@ -57,6 +66,7 @@ const payload = {
     pages: pagesEnum,
     year: yearEnum,
     // year: number({ required_error: "Year is required" }),
+    category: categoryEnum,
     userId: string().optional(),
     userName: string().optional(),
     location: string().optional(),

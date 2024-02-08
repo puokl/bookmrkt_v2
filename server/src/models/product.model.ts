@@ -17,6 +17,7 @@ export interface ProductInput {
   year: string;
   location?: string;
   condition: string;
+  category?: string;
 }
 
 export interface ProductDocument extends ProductInput, mongoose.Document {
@@ -85,6 +86,20 @@ const productSchema = new mongoose.Schema(
       default: "2020-",
     },
     location: { type: String, required: false },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "novel",
+        "essay",
+        "sport",
+        "kids",
+        "biography",
+        "cookbook",
+        "others",
+      ],
+      default: "novel",
+    },
   },
   { timestamps: true }
 );

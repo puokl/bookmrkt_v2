@@ -20,6 +20,7 @@ export type temporaryCreateProductType = {
   condition: string;
   location?: string;
   image?: string;
+  category?: string;
 };
 type EditProductFormProps = {
   product: any;
@@ -39,8 +40,8 @@ type FieldID =
   | "year"
   | "pages"
   | "user"
-  | "description";
-// | "image";
+  | "description"
+  | "category";
 
 const fields: {
   id: FieldID;
@@ -133,13 +134,22 @@ const fields: {
     placeholder: "Enter description",
     required: false,
   },
-  // {
-  //   id: "image",
-  //   label: "image",
-  //   type: "file",
-  //   placeholder: "Enteran image",
-  //   required: false,
-  // },
+  {
+    id: "category",
+    label: "Category",
+    type: "text",
+    placeholder: "Enter book category",
+    required: false,
+    options: [
+      "novel",
+      "essay",
+      "sport",
+      "kids",
+      "biography",
+      "cookbook",
+      "others",
+    ],
+  },
 ];
 
 export type parametriType = {
@@ -264,7 +274,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                     {field.id === "language" ||
                     field.id === "condition" ||
                     field.id === "pages" ||
-                    field.id === "year" ? (
+                    field.id === "year" ||
+                    field.id === "category" ? (
                       <select
                         id={field.id}
                         className="w-full p-2 border border-gray-300 rounded"
@@ -310,7 +321,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                     {field.id === "language" ||
                     field.id === "condition" ||
                     field.id === "pages" ||
-                    field.id === "year" ? (
+                    field.id === "year" ||
+                    field.id === "category" ? (
                       <select
                         id={field.id}
                         className="w-full p-2 border border-gray-300 rounded"

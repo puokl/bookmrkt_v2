@@ -12,6 +12,7 @@ export type productType = {
   location?: string;
   year?: string;
   pages?: string;
+  category?: string;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

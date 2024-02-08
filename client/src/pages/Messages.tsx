@@ -143,7 +143,7 @@ const Messages = () => {
 
   return (
     <>
-      <div className="flex flex-col p-2 bg-emerald-100">
+      <div className="flex flex-col min-h-screen p-2 bg-emerald-100">
         <div className="flex space-x-2 ">
           <button
             className={`m-2 p-2 my-4 rounded-md ${
@@ -171,7 +171,7 @@ const Messages = () => {
             {/* Left column for filteredChat on mobile and lg screens */}
             <div className="lg:w-1/2">
               <div className="flex flex-col w-full overflow-x-auto ">
-                {filteredChat &&
+                {filteredChat && filteredChat.length > 0 ? (
                   filteredChat.map((item: chatType) => (
                     <div
                       key={item._id}
@@ -180,7 +180,6 @@ const Messages = () => {
                       }`}
                       onClick={(event) => {
                         handleChatClick(item, event);
-                        // setSelectedChatId(item?._id || null);
                       }}
                     >
                       <div className="flex items-center w-full">
@@ -212,7 +211,14 @@ const Messages = () => {
                         </div>
                       )}
                     </div>
-                  ))}
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">
+                    {`At the moment you do not have any ${
+                      selectedChatType === "sent" ? "sent" : "received"
+                    } messages.`}
+                  </p>
+                )}
               </div>
             </div>
 

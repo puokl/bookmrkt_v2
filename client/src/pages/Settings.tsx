@@ -10,21 +10,31 @@ const Settings = () => {
 
   const [selectedFile, setSelectedFile] = useState<File | string>("");
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
+  const [productError, setProductError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const handleSubmitAvatar = async () => {
-    try {
+    if (selectedFile instanceof File) {
       setIsUploading(true);
+      try {
+        setProductError(null);
+        setUploadSuccess(false);
+        const response = await dispatch(uploadAvatar(selectedFile));
+        // Check if there was an error during uploadProductImage
+        if (uploadAvatar.rejected.match(response)) {
+          const errorToShow = response.error.message;
+          if (errorToShow) setProductError(errorToShow);
 
-      if (selectedFile instanceof File) {
-        dispatch(uploadAvatar(selectedFile));
-      } else {
-        console.log("selectedFile is not a File type");
+          return;
+        }
+        setUploadSuccess(true);
+      } catch (error: any) {
+        console.log("handleSubmitAvatar() error", error);
+        setProductError("Error uploading image");
+      } finally {
+        setIsUploading(false);
       }
-    } catch (error: any) {
-      console.log("handleSubmitAvatar() error", error);
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -41,6 +51,7 @@ const Settings = () => {
     };
     userId: string;
   }
+
   const handleProfile = () => {
     try {
       // Check if a file is selected before dispatching the updateProfile action
@@ -102,13 +113,23 @@ const Settings = () => {
           >
             {isUploading ? "Uploading..." : "Upload Picture"}
           </button>
+          {/* Product Error */}
+          {productError && (
+            <p className="mb-4 text-sm text-red-500">{productError}</p>
+          )}
 
+          {/* Upload Success Message */}
+          {uploadSuccess && (
+            <p className="mb-4 text-sm text-green-500">
+              Image uploaded successfully!
+            </p>
+          )}
           <button
             onClick={handleProfile}
             className="w-full px-4 py-2 mt-4 font-bold text-white rounded bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
-            disabled={isUploading || !selectedFile}
+            disabled={isLoading || !selectedFile}
           >
-            {isUploading ? "Updating..." : "Update Profile"}
+            {isLoading ? "Updating..." : "Update Profile"}
           </button>
         </form>
       </div>

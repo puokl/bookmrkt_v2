@@ -44,7 +44,7 @@ const DisplayProduct = () => {
   if (product) {
     return (
       <>
-        <div className="flex justify-center w-full h-screen p-5 pt-12 bg-emerald-100">
+        <div className="flex justify-center w-full min-h-screen p-5 pt-12 bg-emerald-100">
           <div className="flex flex-col">
             <div className="flex justify-center">
               <img
@@ -78,6 +78,7 @@ const DisplayProduct = () => {
             <CustomText label="Language" value={product.language} />
             <CustomText label="Condition" value={product.condition} />
             <CustomText label="Year" value={product.year} />
+            <CustomText label="Category" value={product.category} />
             <CustomText label="Seller" value={product.username} />
             <div className="flex mt-4 justify-evenly">
               {user._id === product.userId && (

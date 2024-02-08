@@ -50,7 +50,7 @@ export async function updateUserHandler(
 
   const newUser = { user };
 
-  return res.send({ user });
+  return res.send(user);
 }
 
 // @desc    Get current user

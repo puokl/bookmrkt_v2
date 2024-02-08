@@ -13,22 +13,21 @@ const registerUser = async (userData: RegisterType) => {
   );
 
   if (response.data) {
-    sessionStorage.setItem("user", JSON.stringify(response.data));
+    sessionStorage.setItem("accessToken", response.data.accessToken);
+    localStorage.setItem("refreshToken", response.data.refreshToken);
+    localStorage.setItem("user", JSON.stringify(response.data.user));
   }
   return response.data;
 };
 
 // Login
 const login = async (userData: LoginType) => {
-  console.log("userData", userData);
   const response = await axios.post(
     `${process.env.REACT_APP_ENDPOINT}/api/sessions`,
     userData,
     { headers }
   );
-
   if (response.data) {
-    // Store tokens in localStorage
     sessionStorage.setItem("accessToken", response.data.accessToken);
     localStorage.setItem("refreshToken", response.data.refreshToken);
     localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -54,14 +53,11 @@ const fetchUserData = async () => {
 // Logout
 const logout = async () => {
   try {
-    console.log("logout started");
     await axios.delete(`${process.env.REACT_APP_ENDPOINT}/api/sessions`, {
       headers,
     });
-    console.log("logout axios ok");
     localStorage.removeItem("user");
     sessionStorage.removeItem("accessToken");
-    console.log("all tokens removed");
   } catch (error) {
     console.log(error);
   }
@@ -69,9 +65,7 @@ const logout = async () => {
 
 // Update Profile
 const updateProfile = async (avatar: { image: string }, userId: string) => {
-  console.log("avatar in redux updateProfile", avatar);
   const data = { image: avatar.image };
-
   const response = await axios.put(
     `${process.env.REACT_APP_ENDPOINT}/api/users/${userId}`,
     data,

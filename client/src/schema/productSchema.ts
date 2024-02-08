@@ -19,5 +19,9 @@ export const createProductSchema = object({
     required_error: "pages is required",
     invalid_type_error: "pages must be a string",
   }),
+  category: string({
+    required_error: "category is required",
+    invalid_type_error: "category must be a string",
+  }),
   image: string().optional(),
 });

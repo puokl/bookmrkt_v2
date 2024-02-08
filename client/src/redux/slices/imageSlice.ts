@@ -31,8 +31,9 @@ export const uploadAvatar = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log("error on create chat");
-      return thunkAPI.rejectWithValue(errorMessage);
+      console.log("error on create chat", errorMessage);
+      // return thunkAPI.rejectWithValue(errorMessage);
+      throw errorMessage;
     }
   }
 );
@@ -75,6 +76,9 @@ const imageSlice = createSlice({
       .addCase(uploadAvatar.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.errorMessage =
+          (action.payload as string) ||
+          "An error occurred during image upload.";
       })
       .addCase(uploadProductImage.pending, (state) => {
         state.isLoading = true;

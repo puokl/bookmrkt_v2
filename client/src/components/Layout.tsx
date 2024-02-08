@@ -103,7 +103,7 @@ const Layout = () => {
 
   useEffect(() => {
     // console.log("user from layout", user);
-    // console.log("user.email", user.email);
+    // console.log("user.user", user.user.email);
     // Disable scroll on page when mobile menu is open
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -156,7 +156,11 @@ const Layout = () => {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <img
-                  src={user.image || user.user.image || "/avatar.jpeg"}
+                  src={
+                    user.image ||
+                    (user.user && user.user.image) ||
+                    "/avatar.jpeg"
+                  }
                   alt={user.name}
                   className="w-10 h-10 rounded-full"
                 />

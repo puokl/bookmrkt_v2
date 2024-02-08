@@ -19,7 +19,8 @@ type FieldID =
   | "location"
   | "price"
   | "year"
-  | "pages";
+  | "pages"
+  | "category";
 
 const fields: {
   id: FieldID;
@@ -99,6 +100,22 @@ const fields: {
     ],
   },
   {
+    id: "category",
+    label: "Category",
+    type: "text",
+    placeholder: "Enter book category",
+    required: false,
+    options: [
+      "novel",
+      "essay",
+      "sport",
+      "kids",
+      "biography",
+      "cookbook",
+      "others",
+    ],
+  },
+  {
     id: "location",
     label: "Location",
     type: "text",
@@ -148,6 +165,7 @@ const CreateProduct: React.FC = () => {
     pages?: string;
     image?: string;
     location?: string;
+    category?: string;
   };
 
   const handleImageUpload = async () => {
@@ -184,6 +202,7 @@ const CreateProduct: React.FC = () => {
         language: values.language || "EN",
         condition: values.condition || "good",
         location: values.location || "",
+        category: values.category || "",
       };
 
       dispatch(createProduct(data));
@@ -223,7 +242,8 @@ const CreateProduct: React.FC = () => {
                   {field.id === "language" ||
                   field.id === "condition" ||
                   field.id === "pages" ||
-                  field.id === "year" ? (
+                  field.id === "year" ||
+                  field.id === "category" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -269,7 +289,8 @@ const CreateProduct: React.FC = () => {
                   {field.id === "language" ||
                   field.id === "condition" ||
                   field.id === "pages" ||
-                  field.id === "year" ? (
+                  field.id === "year" ||
+                  field.id === "category" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"
