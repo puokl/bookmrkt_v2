@@ -6,10 +6,8 @@ import {
   setSelectedLocation,
   setSelectedCategory,
 } from "../redux/slices/filterSlice";
-import LoadingSpinner from "./LoadingSpinner";
 
 const SortByOptions = [
-  // { value: "", label: "All" },
   { value: "date-recent", label: "Most Recent" },
   { value: "date-oldest", label: "Oldest" },
   { value: "price-low", label: "Lowest price" },
@@ -20,9 +18,7 @@ const SideBar = () => {
   const dispatch = useAppDispatch();
   const { products, isLoading } = useAppSelector((state: any) => state.product);
   const [uniqueLanguages, setUniqueLanguages] = useState<string[]>([]);
-
   const [uniqueCategories, setUniqueCategories] = useState<string[]>([]);
-
   const [languagesCount, setLanguagesCount] = useState<{
     [key: string]: number;
   }>({});
@@ -70,21 +66,6 @@ const SideBar = () => {
     dispatch(setSelectedCategory(""));
   };
 
-  const getLanguagesCountForCategory = (category: string | null): number => {
-    if (!category || category === "All") {
-      return Object.values(languagesCount).reduce(
-        (sum, count) => sum + count,
-        0
-      );
-    }
-
-    return languagesCount[category] || 0;
-  };
-
-  useEffect(() => {
-    console.log("products", products);
-  }, []);
-
   const selectedLocationFromStorage = localStorage.getItem("selectedLocation");
   const defaultLocation: string = selectedLocationFromStorage || "Berlin";
 
@@ -130,7 +111,7 @@ const SideBar = () => {
   return (
     <>
       <div className="flex flex-col h-full p-3 bg-emerald-100 ">
-        <em className="pt-4 pb-8 text-sm md:text-md">
+        <em className="pt-4 pb-4 text-sm md:pb-8 md:text-md">
           There are {filteredProductsAmount.length} books available in{" "}
           {defaultLocation}
         </em>
@@ -140,23 +121,27 @@ const SideBar = () => {
           <p className="text-sm font-bold">Sort by</p>
           <select
             onChange={handleOrderByChange}
-            className="p-2 text-sm border border-gray-300 rounded-lg bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full p-2 mt-1 text-sm border border-gray-300 rounded-lg bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Sort by</option>
-            <option value="price-low">Lowest price</option>
-            <option value="price-high">Highest price</option>
-            <option value="date-recent">Most Recent</option>
-            <option value="date-oldest">Oldest</option>
+            {SortByOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
         {/* Filter by Category - Mobile */}
         <div className="md:hidden">
-          <p className="mb-1 font-bold">Filter by Category</p>
+          <p className="mt-2 font-bold">Filter by Category</p>
           <select
             onChange={handleCategoryFilterChange}
-            className="p-2 mt-2 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={selectedCategory || ""}
+            className="w-full p-2 mt-1 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            <option value="">Filter by Category</option>
+            <option value="">
+              All Categories ({filteredProductsAmount.length})
+            </option>
             {uniqueCategories.map((category) => (
               <option key={category} value={category}>
                 {`${category} (${categoriesCount[category] || 0})`}
@@ -167,15 +152,18 @@ const SideBar = () => {
 
         {/* Filter by Language - Mobile */}
         <div className="md:hidden">
-          <p className="mb-1 font-bold">Filter by Language</p>
+          <p className="mt-2 font-bold">Filter by Language</p>
           <select
             onChange={handleLanguageFilterChange}
-            className="p-2 mt-2 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={selectedLanguage || ""}
+            className="w-full p-2 mt-1 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            <option value="">Filter by Language</option>
+            <option value="">
+              All Languages ({filteredProductsAmount.length})
+            </option>
             {uniqueLanguages.map((language) => (
               <option key={language} value={language}>
-                {language}
+                {`${language} (${languagesCount[language] || 0})`}
               </option>
             ))}
           </select>
@@ -263,7 +251,7 @@ const SideBar = () => {
                         }}
                       ></div>
                     ))}
-                  {/* {`${category} (${categoriesCount[category] || 0})`} */}
+
                   {`${category}${
                     categoriesCount[category]
                       ? ` (${categoriesCount[category]})`

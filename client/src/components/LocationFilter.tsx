@@ -31,12 +31,11 @@ const LocationFilter = () => {
         value={selectedLocation || ""}
         className="py-2 pl-8 pr-2 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
-        <option value="">Select Location</option>
         <option value="Berlin">Berlin</option>
         <option value="Paris">Paris</option>
         <option value="Milan">Milan</option>
         <option value="London">London</option>
-        <option value="Amsterdam">Amsterdam</option>
+        {/* <option value="Amsterdam">Amsterdam</option> */}
       </select>
     </div>
   );

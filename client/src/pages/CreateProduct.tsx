@@ -177,7 +177,6 @@ const CreateProduct: React.FC = () => {
         setUploadSuccess(false);
         const response = await dispatch(uploadProductImage(selectedFile));
 
-        // Check if there was an error during uploadProductImage
         if (uploadProductImage.rejected.match(response)) {
           const errorToShow = response.error.message;
           if (errorToShow) setProductError(errorToShow);

@@ -64,14 +64,6 @@ const menuItems = [
   },
 ];
 
-const iconData = [
-  { icon: FaPlus, label: "Add a book", hoverText: "Add a book" },
-  { icon: FaUser, label: "Profile Settings", hoverText: "Profile Settings" },
-  { icon: FaEnvelope, label: "Messages", hoverText: "Messages" },
-  { icon: FaCog, label: "Settings", hoverText: "Settings" },
-  { icon: FaSignOutAlt, label: "Logout", hoverText: "Logout" },
-];
-
 const Layout = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState<HoveredIcon>(null);
@@ -91,20 +83,11 @@ const Layout = () => {
     }
   }
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
   const toggleMobileMenu = () => {
     setisMobileMenuOpen(!isMobileMenuOpen);
   };
 
   useEffect(() => {
-    // console.log("user from layout", user);
-    // console.log("user.user", user.user.email);
     // Disable scroll on page when mobile menu is open
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -112,7 +95,7 @@ const Layout = () => {
       document.body.style.overflow = "auto";
     }
 
-    // Cleanup function to reset the overflow when the component unmounts
+    // reset the overflow when the component unmounts
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -158,14 +141,11 @@ const Layout = () => {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <img
-                  src={
-                    user.image ||
-                    (user.user && user.user.image) ||
-                    "/avatar.jpeg"
-                  }
+                  src={user.image || "/avatar.jpeg"}
                   alt={user.name}
-                  className="w-10 h-10 rounded-full"
+                  className="object-cover w-10 h-10 rounded-full"
                 />
+
                 <span
                   className={`absolute ml-[-25px] px-2 py-1 text-xs text-black inline-block max-w-[200px] whitespace-no-wrap transition-opacity duration-300 ease-in-out bg-white rounded-md top-[45px] ${
                     isHovered ? "opacity-100 visible" : "opacity-0 invisible"

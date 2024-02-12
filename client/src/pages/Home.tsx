@@ -50,12 +50,12 @@ const Home: React.FC<HomeProps> = () => {
     <>
       {user ? (
         <>
-          <div className="flex flex-col lg:flex-row">
-            <div className="w-full lg:w-1/5 lg:mb-0">
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-1/5 md:mb-0">
               <SideBar />
             </div>
 
-            <div className="w-full lg:w-4/5">
+            <div className="w-full md:w-4/5">
               <ProductList />
             </div>
           </div>

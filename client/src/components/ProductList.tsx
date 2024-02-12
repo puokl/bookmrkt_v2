@@ -8,20 +8,15 @@ import { dateFromNow } from "../utils/textFormat";
 import { truncateText } from "../utils/customText";
 import LoadingSpinner from "./LoadingSpinner";
 
-import {
-  setOrderBy,
-  setSelectedLanguage,
-  setSelectedLocation,
-  setSelectedCategory,
-} from "../redux/slices/filterSlice";
+import { setSelectedLocation } from "../redux/slices/filterSlice";
 
 const ProductList = () => {
-  const [languagesCount, setLanguagesCount] = useState<{
-    [key: string]: number;
-  }>({});
-  const [categoriesCount, setCategoriesCount] = useState<{
-    [key: string]: number;
-  }>({});
+  // const [languagesCount, setLanguagesCount] = useState<{
+  //   [key: string]: number;
+  // }>({});
+  // const [categoriesCount, setCategoriesCount] = useState<{
+  //   [key: string]: number;
+  // }>({});
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -40,10 +35,6 @@ const ProductList = () => {
 
   const { orderBy, selectedLanguage, selectedLocation, selectedCategory } =
     useAppSelector((state) => state.filter);
-
-  // useEffect(() => {
-  //   dispatch(getAllProducts());
-  // }, [dispatch]);
 
   const getSortFunction = (orderBy: any) => {
     switch (orderBy) {
@@ -94,7 +85,6 @@ const ProductList = () => {
 
     // Apply location filter
     if (location) {
-      // Make the comparison case-insensitive
       filteredProducts = filteredProducts.filter(
         (product) => product.location?.toLowerCase() === location.toLowerCase()
       );
@@ -157,25 +147,17 @@ const ProductList = () => {
                         {item.author}
                       </p>
                     </div>
-                    {/* Description */}
-                    {/* <div className="mb-2">
-                    <p className="text-sm">
-                      {truncateText(item.description || "", 150)}
-                    </p>
-                  </div> */}
                     {/* Additional Information */}
                     {hoveredProduct && hoveredProduct._id === item._id && (
                       <div className="absolute top-0 right-0 w-full p-2 rounded-md shadow-md bg-cyan-100 hover:bg-opacity-80">
                         <p className="text-sm">{dateFromNow(item.createdAt)}</p>
                         <div>
                           <div className="flex text-sm">
-                            {/* <TfiLocationPin /> */}
                             <p className="text-sm">
                               <strong>Where: </strong>
                               {truncateText(item.location || "", 25)}
                             </p>
                           </div>
-                          {/* <p className="text-sm">{item.price} €</p> */}
                           <p className="text-sm">
                             <strong>Language: </strong>
                             {item.language}
