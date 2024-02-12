@@ -8,7 +8,21 @@ import { dateFromNow } from "../utils/textFormat";
 import { truncateText } from "../utils/customText";
 import LoadingSpinner from "./LoadingSpinner";
 
+import {
+  setOrderBy,
+  setSelectedLanguage,
+  setSelectedLocation,
+  setSelectedCategory,
+} from "../redux/slices/filterSlice";
+
 const ProductList = () => {
+  const [languagesCount, setLanguagesCount] = useState<{
+    [key: string]: number;
+  }>({});
+  const [categoriesCount, setCategoriesCount] = useState<{
+    [key: string]: number;
+  }>({});
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [hoveredProduct, setHoveredProduct] = useState<productType | null>(
@@ -24,13 +38,12 @@ const ProductList = () => {
     (state: any) => state.product
   ) as { products: productType[]; isLoading: boolean };
 
-  const { orderBy, selectedLanguage, selectedLocation } = useAppSelector(
-    (state) => state.filter
-  );
+  const { orderBy, selectedLanguage, selectedLocation, selectedCategory } =
+    useAppSelector((state) => state.filter);
 
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllProducts());
+  // }, [dispatch]);
 
   const getSortFunction = (orderBy: any) => {
     switch (orderBy) {
@@ -51,53 +64,12 @@ const ProductList = () => {
     }
   };
 
-  // const filteredProducts = orderBy
-  //   ? [...products].sort(getSortFunction(orderBy))
-  //   : [...products];
-  // // Apply language filter
-  // const filterProductsByLanguage = (
-  //   products: productType[],
-  //   language: string | null
-  // ) => {
-  //   return language
-  //     ? products.filter((product) => product.language === language)
-  //     : products;
-  // };
-
-  // const filteredProductsByLanguage = filterProductsByLanguage(
-  //   filteredProducts,
-  //   selectedLanguage
-  // );
-
-  // const applyFilters = (
-  //   products: productType[],
-  //   orderBy: string,
-  //   language: string | null
-  // ) => {
-  //   let filteredProducts = products;
-
-  //   // Apply orderBy filter
-  //   if (orderBy) {
-  //     filteredProducts = [...filteredProducts].sort(getSortFunction(orderBy));
-  //   }
-
-  //   // Apply language filter
-  //   if (language) {
-  //     filteredProducts = filteredProducts.filter(
-  //       (product) => product.language === language
-  //     );
-  //   }
-
-  //   return filteredProducts;
-  // };
-
-  // const filteredProducts = applyFilters(products, orderBy, selectedLanguage);
-
   const applyFilters = (
     products: productType[],
     orderBy: string,
     language: string | null,
-    location: string | null
+    location: string | null,
+    category: string | null
   ) => {
     let filteredProducts = [...products];
 
@@ -113,10 +85,18 @@ const ProductList = () => {
       );
     }
 
+    // Apply category filter
+    if (category) {
+      filteredProducts = filteredProducts.filter(
+        (product) => product.category === category
+      );
+    }
+
     // Apply location filter
     if (location) {
+      // Make the comparison case-insensitive
       filteredProducts = filteredProducts.filter(
-        (product) => product.location === location
+        (product) => product.location?.toLowerCase() === location.toLowerCase()
       );
     }
 
@@ -127,8 +107,17 @@ const ProductList = () => {
     products,
     orderBy,
     selectedLanguage,
-    selectedLocation
+    selectedLocation,
+    selectedCategory
   );
+
+  useEffect(() => {
+    const storedLocation = localStorage.getItem("selectedLocation");
+    if (storedLocation) {
+      dispatch(setSelectedLocation(storedLocation));
+    }
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   if (isLoading) {
     return <LoadingSpinner />;

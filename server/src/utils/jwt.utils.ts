@@ -6,7 +6,7 @@ const publicKey: string = `${process.env.PUBLICKEY}`;
 const test: string = `${process.env.TEST}`;
 export function signJwt(payload: object, options?: jwt.SignOptions): string {
   // const privateKey: string = process.env.PRIVATEKEY || "your-private-key";
-  console.log("privateKey inside signjwt", privateKey);
+  // console.log("privateKey inside signjwt", privateKey);
   return jwt.sign(payload, privateKey, options);
   // return jwt.sign(payload, privateKey, { algorithm: "HS256" });
 }

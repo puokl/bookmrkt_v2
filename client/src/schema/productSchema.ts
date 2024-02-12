@@ -7,7 +7,9 @@ export const createProductSchema = object({
   user: string().optional(),
   description: string().optional(),
   condition: string().nonempty({ message: "Condition is required" }),
-  location: string().optional(),
+  location: string({
+    required_error: "location is required",
+  }),
   price: number({
     required_error: "Price is required",
     invalid_type_error: "Price must be a number",

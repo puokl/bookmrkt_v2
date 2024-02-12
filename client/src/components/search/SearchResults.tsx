@@ -42,18 +42,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               navigate(`/product/${productId}`);
             }}
           >
-            <div className="grid items-center grid-cols-6 gap-4">
+            <div className="grid items-center grid-cols-6 gap-2">
               <div className="col-span-1">
                 <img
                   src={image}
                   alt={title}
-                  className="object-cover w-full h-full"
+                  className="object-cover max-w-full rounded max-h-20"
                   onError={(e) => (e.currentTarget.src = "/no_image.png")}
                 />
               </div>
               <div className="flex flex-col justify-start col-span-5">
-                <span className="truncate">{title}</span>
-                <span className="truncate">
+                <span className="text-sm font-bold truncate">{title}</span>
+                <span className="text-xs truncate">
                   {author} - {price}€ - {location}
                 </span>
               </div>

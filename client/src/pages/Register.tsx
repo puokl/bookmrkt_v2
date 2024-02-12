@@ -27,7 +27,7 @@ const Register = () => {
   const onSubmit = async (values: CreateUserInput) => {
     try {
       dispatch(registerUser(values));
-      navigate("/");
+      navigate("/login");
     } catch (e: any) {
       console.log("there is an error on the registration", e);
       setRegisterError(e.response.data);

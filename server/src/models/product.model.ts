@@ -85,7 +85,12 @@ const productSchema = new mongoose.Schema(
       ],
       default: "2020-",
     },
-    location: { type: String, required: false },
+    location: {
+      type: String,
+      required: true,
+      enum: ["berlin", "paris", "milan", "london", "amsterdam"],
+      default: "berlin",
+    },
     category: {
       type: String,
       required: true,

@@ -121,6 +121,7 @@ const fields: {
     type: "text",
     placeholder: "Enter book location",
     required: false,
+    options: ["berlin", "paris", "milan", "london", "amsterdam"],
   },
   {
     id: "description",
@@ -243,7 +244,8 @@ const CreateProduct: React.FC = () => {
                   field.id === "condition" ||
                   field.id === "pages" ||
                   field.id === "year" ||
-                  field.id === "category" ? (
+                  field.id === "category" ||
+                  field.id === "location" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -290,7 +292,8 @@ const CreateProduct: React.FC = () => {
                   field.id === "condition" ||
                   field.id === "pages" ||
                   field.id === "year" ||
-                  field.id === "category" ? (
+                  field.id === "category" ||
+                  field.id === "location" ? (
                     <select
                       id={field.id}
                       className="w-full p-2 border border-gray-300 rounded"

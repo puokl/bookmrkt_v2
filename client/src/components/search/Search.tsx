@@ -63,12 +63,12 @@ const Search = () => {
       {queryText && (
         <div
           ref={ref}
-          className="absolute bottom-0 left-0 right-0 z-20 p-0 mt-2 overflow-y-auto bg-gray-100 max-h-70vh"
+          className="absolute left-0 right-0 z-20 p-0 overflow-y-auto bg-gray-100 rounded-lg top-full max-h-70vh"
         >
           <div className="px-4">
             <div className="pt-2 pb-4 border-t-2">
               <SearchResults
-                searchResults={searchResults}
+                searchResults={searchResults.slice(0, 6)}
                 setQueryText={setQueryText}
               />
             </div>

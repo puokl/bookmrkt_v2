@@ -13,9 +13,11 @@ const registerUser = async (userData: RegisterType) => {
   );
 
   if (response.data) {
-    sessionStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+    console.log("response.data in register", response.data);
+    console.log("response", response);
+    // sessionStorage.setItem("accessToken", response.data.accessToken);
+    // localStorage.setItem("refreshToken", response.data.refreshToken);
+    // localStorage.setItem("user", JSON.stringify(response.data.user));
   }
   return response.data;
 };
@@ -28,6 +30,7 @@ const login = async (userData: LoginType) => {
     { headers }
   );
   if (response.data) {
+    console.log("response.data in login", response.data);
     sessionStorage.setItem("accessToken", response.data.accessToken);
     localStorage.setItem("refreshToken", response.data.refreshToken);
     localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -58,6 +61,7 @@ const logout = async () => {
     });
     localStorage.removeItem("user");
     sessionStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   } catch (error) {
     console.log(error);
   }

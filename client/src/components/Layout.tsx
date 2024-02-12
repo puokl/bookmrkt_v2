@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import Search from "../components/search/Search";
+import LocationFilter from "./LocationFilter";
 
 type HoveredIcon =
   | "addBook"
@@ -137,7 +138,8 @@ const Layout = () => {
               </Link>
             </div>
           )}
-          {user && <Search />}{" "}
+          {user && <Search />}
+          {user && <LocationFilter />}
         </div>
 
         {user ? (

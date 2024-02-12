@@ -22,8 +22,7 @@ export const registerUser = createAsyncThunk(
   "auth/register", // that's the action
   async (user: RegisterType, thunkAPI) => {
     try {
-      console.log("hi from authservice");
-      // that's the payload that comes back from the register function
+      console.log("user in authslice", user);
       return await authService.registerUser(user);
     } catch (error: any) {
       const message =
@@ -65,7 +64,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
 // Update profile
-
 type UpdateType = {
   avatar: { image: string };
   userId: string;
@@ -75,9 +73,7 @@ export const updateProfile = createAsyncThunk(
   async (data: UpdateType, thunkAPI) => {
     try {
       const { avatar, userId } = data;
-      console.log("data", data);
       await authService.updateProfile(avatar, userId);
-      console.log("avatar after updateProfile", avatar);
     } catch (error: any) {
       const message =
         (error.response &&

@@ -46,6 +46,13 @@ const categoryEnum = z.enum([
   "cookbook",
   "others",
 ]);
+const locationEnum = z.enum([
+  "berlin",
+  "paris",
+  "milan",
+  "london",
+  "amsterdam",
+]);
 
 const payload = {
   body: object({
@@ -58,18 +65,13 @@ const payload = {
     author: string({ required_error: "Author is required" }),
     condition: conditionEnum,
     language: languageEnum,
-
-    // condition: string({ required_error: "Condition is required" }),
-    // language: string({ required_error: "Language is required" }),
-    image: string().optional(),
-    // pages: number({ required_error: "Pages is required" }),
     pages: pagesEnum,
     year: yearEnum,
-    // year: number({ required_error: "Year is required" }),
     category: categoryEnum,
+    location: locationEnum,
     userId: string().optional(),
     userName: string().optional(),
-    location: string().optional(),
+    image: string().optional(),
   }),
 };
 
