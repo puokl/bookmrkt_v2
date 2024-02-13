@@ -121,8 +121,9 @@ const Layout = () => {
               </Link>
             </div>
           )}
+
           {user && <Search />}
-          {user && <LocationFilter />}
+          {/* {user && <LocationFilter />} */}
         </div>
 
         {user ? (

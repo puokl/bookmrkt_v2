@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import SearchResults from "./SearchResults";
 import { TbSearch } from "react-icons/tb";
+import LocationFilter from "../LocationFilter";
 
 const Search = () => {
   const [queryText, setQueryText] = useState("");
@@ -55,6 +56,9 @@ const Search = () => {
           value={queryText}
           onChange={handleChange}
         />
+        <div className="absolute top-0 right-0 flex items-center h-10">
+          <LocationFilter styleSelect="bg-stone-200 h-full" styleDiv="" />
+        </div>
         <div className="absolute flex items-center h-10 left-2">
           <TbSearch className="text-teal-500" size="20px" />
         </div>

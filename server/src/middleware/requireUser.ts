@@ -10,7 +10,6 @@ const requireUser = (req: Request, res: Response, next: NextFunction) => {
     );
     return res.sendStatus(403);
   }
-  console.log("there is a user in requireUser");
   return next();
 };
 

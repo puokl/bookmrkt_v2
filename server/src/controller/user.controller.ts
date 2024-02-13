@@ -18,7 +18,6 @@ export async function createUserHandler(
   try {
     const user = await createUser(req.body);
     // return res.send(omit(user.toJSON(), "password"));
-    // console.log("user in backend createuser", user);
     return res.send(user);
   } catch (e: any) {
     console.error(e);
@@ -35,18 +34,15 @@ export async function updateUserHandler(
   req: Request<UpdateUserInput["params"]>,
   res: Response
 ) {
-  // console.log("res.locals.user", res.locals.user);
   const userId = res.locals.user._id;
   const update = { image: req.body.image };
   const oldUser = await findUser({ _id: userId });
   if (!oldUser) {
     return res.sendStatus(404);
   }
-  // console.log("update in updateUserHandler", update);
   const user = await findAndUpdateUser({ _id: userId }, update, {
     new: true,
   });
-  // console.log("user updateUserHandler", user);
 
   const newUser = { user };
 

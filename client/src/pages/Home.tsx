@@ -63,30 +63,36 @@ const Home: React.FC<HomeProps> = () => {
       ) : (
         <>
           <div className="flex flex-col items-center min-h-screen pt-20 bg-gradient-to-r from-blue-500 to-purple-600">
-            <div className="w-full max-w-2xl text-center text-gray-800">
-              <div className="w-full mb-16 ">
+            <div className="w-full max-w-2xl text-center text-white">
+              <div className="w-full mb-14">
                 <img
                   src="/bm.png"
-                  className="object-cover w-auto h-auto mx-auto text-gray-800"
+                  className="object-cover w-auto h-auto mx-auto"
                   alt="logo"
                 />
               </div>
-              <div className="">
+              <div className="text-white">
                 <h1 className="mb-4 text-5xl font-extrabold">Rescue a Book,</h1>
                 <h1 className="mb-4 text-5xl font-extrabold">Find a Friend:</h1>
                 <h3 className="mb-2 text-3xl">
                   Explore a world of second-hand books.
                 </h3>
-                <p className="mb-8 text-3xl">
+                <p className="mb-4 text-3xl">
                   Buy, sell, and trade stories with fellow readers.
                 </p>
+
                 <div className="flex flex-col items-center justify-center">
+                  <p>Choose your city:</p>
+                  <LocationFilter
+                    styleDiv="text-white mb-6 mt-2"
+                    styleSelect="text-white bg-violet-800 px-2"
+                  />
                   <p>Register or test the application with a guest account</p>
 
                   <p
                     className={`${
                       isTooltipVisible ? "block" : "hidden"
-                    } absolute bg-emerald-200 text-black px-4 py-2 rounded-lg -mt-40 w-72 text-center opacity-80`}
+                    } absolute bg-emerald-200 px-4 py-2 rounded-lg -mt-10 w-90 text-center opacity-80 text-black`}
                   >
                     You may experience a cold start since the server is loaded
                     on a free instance type.
@@ -95,7 +101,6 @@ const Home: React.FC<HomeProps> = () => {
                     <br />
                     Please wait.
                   </p>
-                  <LocationFilter />
 
                   <button
                     onClick={() => handleLogin(credential)}

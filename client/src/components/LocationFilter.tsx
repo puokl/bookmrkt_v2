@@ -3,7 +3,15 @@ import { FaGlobe } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setSelectedLocation } from "../redux/slices/filterSlice";
 
-const LocationFilter = () => {
+interface LocationFilterProps {
+  styleDiv?: string;
+  styleSelect?: string;
+}
+
+const LocationFilter: React.FC<LocationFilterProps> = ({
+  styleDiv,
+  styleSelect,
+}) => {
   const dispatch = useAppDispatch();
   const selectedLocation: string | null = useAppSelector(
     (state) => state.filter.selectedLocation
@@ -24,12 +32,12 @@ const LocationFilter = () => {
   }, [dispatch]);
 
   return (
-    <div className="relative">
-      <FaGlobe className="absolute text-gray-500 left-2 top-2" />
+    <div className={`relative flex items-center ${styleDiv}`}>
+      <FaGlobe className="absolute left-2" />
       <select
         onChange={handleLocationChange}
         value={selectedLocation || ""}
-        className="py-2 pl-8 pr-2 text-sm border border-gray-300 rounded bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className={`py-3 pl-8 pr-2 text-sm rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-bold ${styleSelect}`}
       >
         <option value="Berlin">Berlin</option>
         <option value="Paris">Paris</option>

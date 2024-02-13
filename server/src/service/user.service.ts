@@ -21,25 +21,18 @@ export async function validatePassword({
   email: string;
   password: string;
 }) {
-  console.log("inside validatePassword");
   try {
-    console.log("inside try");
-    console.log("email", email);
-    try {
-      const user = await UserModel.findOne({ email });
-      console.log("after user model findone", user);
-      if (!user) {
-        console.log("there is no user");
-        return false;
-      }
-      console.log("after UserModel.findOne");
-      const isValid = await user.comparePassword(password);
-      if (!isValid) return false;
-      console.log("after user.comparePassword(password);");
-      return omit(user.toJSON(), "password");
-    } catch (error) {
-      console.log("error in validatePassword 1st try catch", error);
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      console.log("there is no user");
+      return false;
     }
+
+    const isValid = await user.comparePassword(password);
+    if (!isValid) return false;
+
+    return omit(user.toJSON(), "password");
   } catch (error) {
     console.log("error in validatePassword", error);
   }
@@ -72,7 +65,6 @@ export async function getGoogleOAuthTokens({
     grant_type: "authorization_code",
   };
 
-  console.log("values", { values });
   try {
     const res = await axios.post<GoogleTokensResult>(
       url,
@@ -83,11 +75,10 @@ export async function getGoogleOAuthTokens({
         },
       }
     );
-    console.log("res.data", res.data);
+
     return res.data;
   } catch (error: any) {
     console.log("error", error.response.data.error);
-    console.error(error, "Failed to fetch GoogleOauth Tokens");
     throw new Error(error.message);
   }
 }
