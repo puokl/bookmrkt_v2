@@ -33,11 +33,11 @@ const LocationFilter: React.FC<LocationFilterProps> = ({
 
   return (
     <div className={`relative flex items-center ${styleDiv}`}>
-      <FaGlobe className="absolute left-2" />
+      <FaGlobe className="absolute left-3" />
       <select
         onChange={handleLocationChange}
         value={selectedLocation || ""}
-        className={`py-3 pl-8 pr-2 text-sm rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-bold ${styleSelect}`}
+        className={`py-[10px] pl-9 pr-2  text-sm rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-bold ${styleSelect}`}
       >
         <option value="Berlin">Berlin</option>
         <option value="Paris">Paris</option>

@@ -51,8 +51,8 @@ const Search = () => {
           autoCorrect="off"
           spellCheck="false"
           maxLength={64}
-          className="relative w-full h-10 pl-16 font-medium rounded-lg outline-none bg-stone-100"
-          placeholder="Search a book"
+          className="relative w-full h-10 pl-16 font-medium border rounded-lg outline-none border-stone-300 bg-stone-100"
+          placeholder="Search by Title or Author"
           value={queryText}
           onChange={handleChange}
         />
@@ -60,7 +60,7 @@ const Search = () => {
           <LocationFilter styleSelect="bg-stone-200 h-full" styleDiv="" />
         </div>
         <div className="absolute flex items-center h-10 left-2">
-          <TbSearch className="text-teal-500" size="20px" />
+          <TbSearch className="text-stone-500" size="20px" />
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,11 +17,10 @@ const ConversationForm: React.FC<conversationFormProps> = ({
   productImage,
 }) => {
   const dispatch = useAppDispatch();
-
   const { user } = useAppSelector((state) => state.auth);
   const senderName = user.name;
   const senderId = user._id;
-
+  const [isMessageSent, setIsMessageSent] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -32,7 +31,6 @@ const ConversationForm: React.FC<conversationFormProps> = ({
 
   const handleConversation = (values: addConversationType) => {
     try {
-      console.log("values", values);
       const conversation = {
         ...values,
         senderId,
@@ -43,6 +41,7 @@ const ConversationForm: React.FC<conversationFormProps> = ({
         productImage,
       };
       const userInput = { conversation, chatId };
+      setIsMessageSent(true);
       dispatch(addConversation(userInput));
       window.location.reload();
     } catch (error: any) {
@@ -52,11 +51,15 @@ const ConversationForm: React.FC<conversationFormProps> = ({
 
   return (
     <>
-      {/* <p className="mb-4">Hello from ConversationForm</p> */}
       <form
         className="mt-6 space-y-4"
         onSubmit={handleSubmit(handleConversation)}
       >
+        {isMessageSent && (
+          <p className="px-6 py-2 text-green-600 bg-green-100 border border-green-600 rounded w-fit">
+            Message sent successfully!
+          </p>
+        )}
         <div>
           <label
             htmlFor="message"
@@ -75,12 +78,14 @@ const ConversationForm: React.FC<conversationFormProps> = ({
             {errors?.message?.message?.toString()}
           </p>
         </div>
-        <button
-          type="submit"
-          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Send
-        </button>
+        <div className="flex justify-end md:mt-2">
+          <button
+            type="submit"
+            className="inline-flex justify-center px-6 py-2 text-sm text-blue-600 border border-blue-600 rounded hover:bg-blue-100 hover:text-blue-700"
+          >
+            Send
+          </button>
+        </div>
       </form>
     </>
   );

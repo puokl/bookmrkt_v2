@@ -7,7 +7,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 const Settings = () => {
   const { user, isLoading } = useAppSelector((state) => state.auth);
   const { avatar } = useAppSelector((state) => state.image);
-
   const [selectedFile, setSelectedFile] = useState<File | string>("");
   const [isUploading, setIsUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
@@ -21,11 +20,9 @@ const Settings = () => {
         setProductError(null);
         setUploadSuccess(false);
         const response = await dispatch(uploadAvatar(selectedFile));
-        // Check if there was an error during uploadProductImage
         if (uploadAvatar.rejected.match(response)) {
           const errorToShow = response.error.message;
           if (errorToShow) setProductError(errorToShow);
-
           return;
         }
         setUploadSuccess(true);
@@ -54,7 +51,6 @@ const Settings = () => {
 
   const handleProfile = () => {
     try {
-      // Check if a file is selected before dispatching the updateProfile action
       if (
         selectedFile instanceof File ||
         (typeof selectedFile === "string" && selectedFile)
@@ -65,7 +61,6 @@ const Settings = () => {
         };
 
         dispatch(updateProfile(data)).then(() => {
-          // Reload the page after the dispatch is complete
           window.location.reload();
         });
       } else {
@@ -82,7 +77,7 @@ const Settings = () => {
 
   return (
     <>
-      <div className="min-h-screen pt-20 bg-emerald-100">
+      <div className="min-h-screen pt-20 ">
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -108,7 +103,7 @@ const Settings = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white rounded bg-cyan-500 hover:bg-cyan-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+            className="w-full px-4 py-2 font-bold border rounded text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
             disabled={isUploading}
           >
             {isUploading ? "Uploading..." : "Upload Picture"}
@@ -126,7 +121,7 @@ const Settings = () => {
           )}
           <button
             onClick={handleProfile}
-            className="w-full px-4 py-2 mt-4 font-bold text-white rounded bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+            className="w-full px-4 py-2 mt-4 font-bold border rounded text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
             disabled={isLoading || !selectedFile}
           >
             {isLoading ? "Updating..." : "Update Profile"}

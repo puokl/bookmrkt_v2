@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Slider from "../components/Slider";
 
 type TestProps = {};
 
@@ -16,6 +17,7 @@ const Test: React.FC<TestProps> = () => {
         <div className="h-8 w-8 bg-emerald-800rounded-full animate-bounce [animation-delay:-0.15s]"></div>
 
         <div className="w-8 h-8 bg-emerald-800rounded-full animate-bounce"></div>
+        <Slider />
       </div>
     </>
   );

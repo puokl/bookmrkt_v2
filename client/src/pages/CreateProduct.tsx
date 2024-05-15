@@ -137,7 +137,6 @@ const CreateProduct: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | string>("");
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
-
   const { productImage } = useAppSelector((state: any) => state.image);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -176,14 +175,11 @@ const CreateProduct: React.FC = () => {
         setProductError(null);
         setUploadSuccess(false);
         const response = await dispatch(uploadProductImage(selectedFile));
-
         if (uploadProductImage.rejected.match(response)) {
           const errorToShow = response.error.message;
           if (errorToShow) setProductError(errorToShow);
-
           return;
         }
-
         setUploadSuccess(true);
       } catch (error) {
         console.error("Error uploading image", error);
@@ -214,11 +210,8 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pb-4 bg-emerald-100">
-      {/* <div className="flex flex-col items-center max-w-2xl mx-auto space-y-4 md:flex-row md:items-start md:space-y-0 md:space-x-4"> */}
-      <div className="max-w-4xl pt-4 mx-auto ">
-        {/* <div className="flex flex-col w-full md:w-1/2">
-          {productError && <p className="text-red-500">{productError}</p>} */}
+    <div className="min-h-screen pb-4">
+      <div className="max-w-4xl pt-4 mx-auto">
         <form
           className="p-8 pb-4 rounded-md shadow-md bg-stone-100"
           onSubmit={handleSubmit(handleProduct)}
@@ -274,6 +267,7 @@ const CreateProduct: React.FC = () => {
                 </div>
               ))}
           </div>
+          <hr className="my-8 border-t border-gray-300" />
 
           {/* Non-required Fields */}
           <div className="flex flex-wrap -mx-2">
@@ -341,8 +335,8 @@ const CreateProduct: React.FC = () => {
               className={`${
                 uploading
                   ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-cyan-700"
-              } px-2 py-2 ml-4 font-bold text-white rounded-lg bg-cyan-500 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800`}
+                  : "hover:bg-cyan-100"
+              } px-2 py-2 ml-4 font-bold text-cyan-600 border border-cyan-600 rounded md:mt-2 hover:bg-cyan-100 hover:text-cyan-700 mb-1`}
               type="button"
               onClick={handleImageUpload}
               disabled={uploading}
@@ -354,18 +348,16 @@ const CreateProduct: React.FC = () => {
           {productError && (
             <p className="mb-4 text-sm text-red-500">{productError}</p>
           )}
-
           {/* Upload Success Message */}
           {uploadSuccess && (
             <p className="mb-4 text-sm text-green-500">
               Image uploaded successfully!
             </p>
           )}
-
           <hr className="my-8 border-t border-gray-300" />
           <div className="mb-4">
             <button
-              className="px-4 py-2 font-bold text-white rounded-full bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+              className="px-4 py-2 font-bold border rounded text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
               type="submit"
             >
               Add Product
@@ -374,7 +366,6 @@ const CreateProduct: React.FC = () => {
         </form>
       </div>
     </div>
-    // </div>
   );
 };
 

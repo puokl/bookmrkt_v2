@@ -30,7 +30,7 @@ export const CustomText: React.FC<CustomTextProps> = ({
 
   return (
     <div className="flex items-center">
-      <span className={`${getFontSizeClass(labelFontSize)} mr-2`}>
+      <span className={`${getFontSizeClass(labelFontSize)} mr-2 font-bold`}>
         {label}:
       </span>
       <span className={`${getFontSizeClass(valueFontSize)} italic`}>
@@ -38,8 +38,4 @@ export const CustomText: React.FC<CustomTextProps> = ({
       </span>
     </div>
   );
-};
-
-export const truncateText = (text: string, maxLength: number) => {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };

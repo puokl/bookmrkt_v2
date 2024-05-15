@@ -169,7 +169,6 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
   const dispatch = useAppDispatch();
   const { productImage } = useAppSelector((state) => state.image);
   const [selectedFile, setSelectedFile] = useState<File | string>("");
-
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
   const [productError, setProductError] = useState<string | null>(null);
@@ -219,11 +218,9 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
     try {
       if (productId) {
         const productID = productId;
-
         // Check if a new image is uploaded, use existing image if not
         const updatedImage =
           selectedFile instanceof File ? productImage : product.image;
-
         const data = { ...values, image: updatedImage };
         const parametri = { productID, data };
         console.log("parametri", parametri);
@@ -251,12 +248,13 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
 
   return (
     <>
-      <div className="min-h-screen pb-4 bg-emerald-100">
+      <div className="min-h-screen pb-4 my-6">
         <div className="max-w-4xl pt-4 mx-auto">
           <form
             className="p-8 pb-4 rounded-md shadow-md bg-stone-100"
             onSubmit={handleSubmit(handleUpdate)}
           >
+            {/* Product Error */}
             {productError && (
               <p className="mb-4 text-sm text-red-500">{productError}</p>
             )}
@@ -308,6 +306,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                   </div>
                 ))}
             </div>
+            <hr className="my-8 border-t border-gray-300" />
+
             {/* Non-required Fields */}
             <div className="flex flex-wrap -mx-2">
               {fields
@@ -375,7 +375,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                   uploading
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-cyan-700"
-                } px-2 py-2 ml-4 font-bold text-white rounded-lg bg-cyan-500 focus:outline-none focus:shadow-outline-blue active:bg-cyan-800`}
+                } px-6 py-2 ml-4 font-bold  text-cyan-600 border border-cyan-600 rounded md:mt-2 hover:bg-cyan-100 hover:text-cyan-700 mb-1`}
                 type="button"
                 onClick={handleImageUpload}
                 disabled={uploading}
@@ -392,15 +392,15 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
               </p>
             )}
             <hr className="my-8 border-t border-gray-300" />
-            <div className="mb-4">
+            <div className="flex justify-end mb-4">
               <button
-                className="px-4 py-2 font-bold text-white rounded-full bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+                className="px-6 py-2 mr-4 font-bold border rounded text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
                 type="submit"
               >
                 Update Product
               </button>
               <button
-                className="px-4 py-2 mr-4 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline-red active:bg-red-800"
+                className="px-6 py-2 ml-4 mr-4 font-bold text-red-600 border border-red-600 rounded md:mt-2 hover:bg-red-100 hover:text-red-700"
                 onClick={handleCancel}
               >
                 Cancel

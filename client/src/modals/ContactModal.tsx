@@ -31,16 +31,16 @@ const ContactModal: React.FC<ContactModalProps> = ({
     <>
       <button
         onClick={openModal}
-        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+        className="px-4 py-2 font-bold border rounded text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
       >
         {buttonText}
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex overflow-auto bg-smoke-light">
+        <div className="fixed inset-0 z-50 flex m-1 overflow-auto border-2 bg-smoke-light border-stone-500">
           <div className="relative flex flex-col w-full max-w-md p-8 m-auto bg-white rounded-lg">
             <div className="flex items-center justify-between pb-3">
-              <p className="text-2xl font-bold">Contact Seller</p>
+              <p className="text-xl font-bold">Contact Seller</p>
               <button className="cursor-pointer" onClick={closeModal}>
                 <span className="text-black">X</span>
               </button>

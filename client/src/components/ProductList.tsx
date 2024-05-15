@@ -4,11 +4,13 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getAllProducts } from "../redux/slices/productSlice";
 import { productType } from "../types/productType";
 import { TfiLocationPin } from "react-icons/tfi";
-import { dateFromNow } from "../utils/textFormat";
-import { truncateText } from "../utils/customText";
+import { dateFromNow, truncateText } from "../utils/textFormat";
 import LoadingSpinner from "./LoadingSpinner";
 
 import { setSelectedLocation } from "../redux/slices/filterSlice";
+import CardView from "./CardView";
+import ListView from "./ListView";
+import { FaList, FaTh } from "react-icons/fa";
 
 const ProductList = () => {
   // const [languagesCount, setLanguagesCount] = useState<{
@@ -24,6 +26,7 @@ const ProductList = () => {
     null
   );
   const [displayedProductsCount, setDisplayedProductsCount] = useState(12);
+  const [viewType, setViewType] = useState("cards");
 
   const handleLoadMore = () => {
     setDisplayedProductsCount((prevCount) => prevCount + 4);
@@ -109,90 +112,61 @@ const ProductList = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        // Screen size smaller than md (768px)
+        setViewType("cards");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
   return (
     <>
-      <div className="min-h-screen bg-emerald-100 ">
-        <div className="grid grid-cols-2 gap-2 pt-4 bg-emerald-100 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredProducts &&
-            filteredProducts
-              .slice(0, displayedProductsCount)
-              .map((item, index) => (
-                <div
-                  key={index}
-                  className="relative flex flex-col items-center justify-start p-2 m-2 border rounded-md cursor-pointer bg-cyan-50 border-cyan-800"
-                  onClick={() => navigate(`/product/${item.productId}`)}
-                  onMouseEnter={() => setHoveredProduct(item)}
-                  onMouseLeave={() => setHoveredProduct(null)}
-                >
-                  {/* Image */}
-                  <div className="mb-1">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="object-cover w-32 h-32 mx-auto"
-                    />
-                  </div>
-                  {/* Content */}
-                  <div className="flex flex-col w-full">
-                    {/* Title and Author */}
-                    <div className="flex flex-col items-center my-2">
-                      <p className="mb-2 font-bold">{item.price} €</p>
-                      <p className="font-bold leading-tight text-center text-md">
-                        {item.title}
-                      </p>
-                      <p className="text-xs font-bold text-center">
-                        {item.author}
-                      </p>
-                    </div>
-                    {/* Additional Information */}
-                    {hoveredProduct && hoveredProduct._id === item._id && (
-                      <div className="absolute top-0 right-0 w-full p-2 rounded-md shadow-md bg-cyan-100 hover:bg-opacity-80">
-                        <p className="text-sm">{dateFromNow(item.createdAt)}</p>
-                        <div>
-                          <div className="flex text-sm">
-                            <p className="text-sm">
-                              <strong>Where: </strong>
-                              {truncateText(item.location || "", 25)}
-                            </p>
-                          </div>
-                          <p className="text-sm">
-                            <strong>Language: </strong>
-                            {item.language}
-                          </p>
-                          <p className="text-sm">
-                            <strong>Condition: </strong>
-                            {item.condition}
-                          </p>
-                          <p className="text-sm">
-                            <strong>Category: </strong>
-                            {item.category}
-                          </p>
-                        </div>
-                        <div className="mb-2">
-                          <p className="text-sm">
-                            <strong>Info: </strong>
-                            <span className="md:hidden ">
-                              {truncateText(item.description || "", 50)}{" "}
-                            </span>
-                            <span className="hidden md:inline">
-                              {truncateText(item.description || "", 150)}{" "}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+      <div className="min-h-screen ">
+        {/* Selection Types (Visible on md screens and larger) */}
+        <div className="hidden px-6 py-2 mb-4 bg-white border-b md:flex-row md:flex">
+          <button
+            className={`px-4 py-2 rounded ${
+              viewType === "cards" ? " text-slate-950" : "text-slate-300"
+            }`}
+            onClick={() => setViewType("cards")}
+          >
+            <FaTh className="w-6 h-6" />
+          </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              viewType === "list" ? " text-slate-950" : "text-slate-300"
+            }`}
+            onClick={() => setViewType("list")}
+          >
+            <FaList className="w-6 h-6" />
+          </button>
         </div>
-        <div className="flex justify-center py-6 ">
+        {viewType === "cards" ? (
+          <CardView
+            products={filteredProducts.slice(0, displayedProductsCount)}
+          />
+        ) : (
+          <ListView
+            products={filteredProducts.slice(0, displayedProductsCount)}
+          />
+        )}
+
+        <div className="flex justify-center py-6">
           {filteredProducts &&
             filteredProducts.length > displayedProductsCount && (
               <button
-                className="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700"
+                className="px-4 py-2 font-bold text-green-600 border border-green-600 rounded md:mt-2 hover:bg-green-100 hover:text-green-700"
                 onClick={handleLoadMore}
               >
                 Load More

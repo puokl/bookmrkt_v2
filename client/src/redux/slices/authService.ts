@@ -6,20 +6,26 @@ const headers = tokenService.setAuthHeaders();
 
 // Register
 const registerUser = async (userData: RegisterType) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_ENDPOINT}/api/users`,
-    userData,
-    { headers }
-  );
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_ENDPOINT}/api/users`,
+      userData,
+      { headers }
+    );
 
-  if (response.data) {
-    console.log("response.data in register", response.data);
-    console.log("response", response);
-    // sessionStorage.setItem("accessToken", response.data.accessToken);
-    // localStorage.setItem("refreshToken", response.data.refreshToken);
-    // localStorage.setItem("user", JSON.stringify(response.data.user));
+    if (response.data) {
+      console.log("User registered successfully");
+      return { success: true };
+    } else {
+      throw new Error("Registration failed. Please try again.");
+    }
+  } catch (error: any) {
+    console.error("Error during registration:", error.response?.status);
+    return {
+      success: false,
+      errorMessage: "Something went wrong. Please try again.",
+    };
   }
-  return response.data;
 };
 
 // Login

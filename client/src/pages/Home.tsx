@@ -3,7 +3,7 @@ import ProductList from "../components/ProductList";
 import SideBar from "../components/SideBar";
 import LocationFilter from "../components/LocationFilter";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../redux/slices/authSlice";
 import { createSessionSchema } from "../schema/sessionSchema";
 import { TypeOf } from "zod";
@@ -50,20 +50,20 @@ const Home: React.FC<HomeProps> = () => {
     <>
       {user ? (
         <>
-          <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/5 md:mb-0">
+          <div className="flex flex-col md:flex-row 2xl:mx-auto 2xl:max-w-6xl 2xl:px-0">
+            <div className="w-full md:w-1/5 md:mb-0 2xl:w-1/4">
               <SideBar />
             </div>
 
-            <div className="w-full md:w-4/5">
+            <div className="w-full md:w-4/5 2xl:w-3/4">
               <ProductList />
             </div>
           </div>
         </>
       ) : (
         <>
-          <div className="flex flex-col items-center min-h-screen pt-20 bg-gradient-to-r from-blue-500 to-purple-600">
-            <div className="w-full max-w-2xl text-center text-white">
+          <div className="flex flex-col items-center min-h-screen pt-20 bg-stone-200">
+            <div className="w-full max-w-2xl text-center">
               <div className="w-full mb-14">
                 <img
                   src="/bm.png"
@@ -71,7 +71,8 @@ const Home: React.FC<HomeProps> = () => {
                   alt="logo"
                 />
               </div>
-              <div className="text-white">
+              <div className="text-stone-800">
+                {" "}
                 <h1 className="mb-4 text-5xl font-extrabold">Rescue a Book,</h1>
                 <h1 className="mb-4 text-5xl font-extrabold">Find a Friend:</h1>
                 <h3 className="mb-2 text-3xl">
@@ -80,19 +81,27 @@ const Home: React.FC<HomeProps> = () => {
                 <p className="mb-4 text-3xl">
                   Buy, sell, and trade stories with fellow readers.
                 </p>
-
                 <div className="flex flex-col items-center justify-center">
                   <p>Choose your city:</p>
                   <LocationFilter
-                    styleDiv="text-white mb-6 mt-2"
-                    styleSelect="text-white bg-violet-800 px-2"
+                    styleDiv="text-stone-800 mb-6 mt-2 border border-stone-400 rounded-md "
+                    styleSelect="bg-slate-200 px-2 text-stone-800 "
                   />
-                  <p>Register or test the application with a guest account</p>
+                  <p>
+                    {" "}
+                    <Link
+                      to="/register"
+                      className=" hover:text-blue-800 hover:underline"
+                    >
+                      Register{" "}
+                    </Link>
+                    or test the application with a guest account
+                  </p>
 
                   <p
                     className={`${
                       isTooltipVisible ? "block" : "hidden"
-                    } absolute bg-emerald-200 px-4 py-2 rounded-lg -mt-10 w-90 text-center opacity-80 text-black`}
+                    } absolute bg-slate-800 px-4 py-2 rounded-lg -mt-10 w-90 text-center opacity-80 text-white`}
                   >
                     You may experience a cold start since the server is loaded
                     on a free instance type.
@@ -104,7 +113,7 @@ const Home: React.FC<HomeProps> = () => {
 
                   <button
                     onClick={() => handleLogin(credential)}
-                    className="relative px-4 py-2 mt-6 font-bold text-gray-100 rounded-lg bg-violet-800 hover:bg-violet-500"
+                    className="relative px-4 py-2 mt-6 font-bold border rounded-lg border-stone-400 text-stone-800 bg-slate-200 hover:bg-slate-400"
                     onMouseEnter={() => setTooltipVisible(true)}
                     onMouseLeave={() => setTooltipVisible(false)}
                   >

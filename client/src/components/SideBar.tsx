@@ -6,6 +6,7 @@ import {
   setSelectedLocation,
   setSelectedCategory,
 } from "../redux/slices/filterSlice";
+import { capitalizeFirstLetter } from "../utils/textFormat";
 
 const SortByOptions = [
   { value: "date-recent", label: "Most Recent" },
@@ -110,18 +111,17 @@ const SideBar = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full p-3 bg-emerald-100 ">
-        <em className="pt-4 pb-4 text-sm md:pb-8 md:text-md">
-          There are {filteredProductsAmount.length} books available in{" "}
-          {defaultLocation}
+      <div className="flex flex-col h-auto px-6 m-2 ml-4 border rounded-md mt-14">
+        <em className="pt-4 pb-4 text-sm md:pb-8 md:text-md text-montserrat">
+          {filteredProductsAmount.length} books available in {defaultLocation}
         </em>
 
         {/* Sort By - Mobile */}
         <div className="md:hidden">
-          <p className="text-sm font-bold">Sort by</p>
+          <p className="text-sm font-bold font-['montserrat']">SORT BY</p>
           <select
             onChange={handleOrderByChange}
-            className="w-full p-2 mt-1 text-sm border border-gray-300 rounded-lg bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full p-2 mt-1 text-sm border border-gray-300 rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Sort by</option>
             {SortByOptions.map((option) => (
@@ -133,7 +133,7 @@ const SideBar = () => {
         </div>
         {/* Filter by Category - Mobile */}
         <div className="md:hidden">
-          <p className="mt-2 font-bold">Filter by Category</p>
+          <p className="mt-2 font-bold font-['montserrat']">CATEGORY</p>
           <select
             onChange={handleCategoryFilterChange}
             value={selectedCategory || ""}
@@ -144,7 +144,9 @@ const SideBar = () => {
             </option>
             {uniqueCategories.map((category) => (
               <option key={category} value={category}>
-                {`${category} (${categoriesCount[category] || 0})`}
+                {`${capitalizeFirstLetter(category)}  (${
+                  categoriesCount[category] || 0
+                })`}
               </option>
             ))}
           </select>
@@ -152,7 +154,7 @@ const SideBar = () => {
 
         {/* Filter by Language - Mobile */}
         <div className="md:hidden">
-          <p className="mt-2 font-bold">Filter by Language</p>
+          <p className="mt-2 font-bold font-['montserrat']">LANGUAGE</p>
           <select
             onChange={handleLanguageFilterChange}
             value={selectedLanguage || ""}
@@ -171,7 +173,9 @@ const SideBar = () => {
 
         {/* Sort By - Large Screens */}
         <div className="hidden mb-8 md:flex md:flex-col md:space-y-2">
-          <label className="font-bold text-md">Sort by</label>
+          <label className="w-full font-bold font-['montserrat'] text-md">
+            SORT BY
+          </label>
           <select
             value={orderBy}
             onChange={(e) =>
@@ -179,7 +183,7 @@ const SideBar = () => {
                 target: { value: e.target.value },
               } as React.ChangeEvent<HTMLSelectElement>)
             }
-            className="h-8 pl-2 text-sm border border-gray-300 rounded-lg bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full h-8 pl-2 text-sm border border-gray-300 rounded-lg bg-stone-100 md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {SortByOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -188,13 +192,14 @@ const SideBar = () => {
             ))}
           </select>
         </div>
+
         {/* Filter by Category - Large Screens */}
         <div className="hidden mb-8 md:flex md:flex-col md:space-y-2 ">
-          <p className="font-bold text-md">Filter by Category</p>
+          <p className="font-bold font-['montserrat'] text-md">CATEGORY</p>
 
           <div className="flex flex-col">
             <label
-              className={`font-bold ${
+              className={`font-bold  ${
                 selectedCategory === "" ? "underline" : ""
               }`}
             >
@@ -210,7 +215,7 @@ const SideBar = () => {
                 }
                 className="hidden"
               />
-              all ({filteredProductsAmount.length})
+              All ({filteredProductsAmount.length})
             </label>
             {uniqueCategories.map((category) => (
               <label
@@ -252,7 +257,7 @@ const SideBar = () => {
                       ></div>
                     ))}
 
-                  {`${category}${
+                  {`${capitalizeFirstLetter(category)} ${
                     categoriesCount[category]
                       ? ` (${categoriesCount[category]})`
                       : ""
@@ -264,8 +269,8 @@ const SideBar = () => {
         </div>
 
         {/* Filter by Language - Large Screens */}
-        <div className="hidden overflow-y-auto md:flex md:flex-col md:space-y-2 h-60">
-          <p className="font-bold">Filter by Language</p>
+        <div className="hidden h-56 overflow-y-auto md:flex md:flex-col md:space-y-2">
+          <p className="font-bold font-['montserrat']">LANGUAGE</p>
 
           <div className="flex flex-col h-full">
             <label
@@ -338,7 +343,7 @@ const SideBar = () => {
         </div>
         <button
           onClick={handleClearFilters}
-          className="p-2 mt-4 text-white rounded-md bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="p-2 mt-4 mb-6 text-sm font-medium text-blue-600 border border-blue-600 rounded md:mt-2 hover:bg-blue-100 hover:text-blue-700"
         >
           Clear Filters
         </button>

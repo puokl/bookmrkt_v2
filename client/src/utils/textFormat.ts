@@ -30,3 +30,12 @@ export const toUpperCase = (name: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
+
+export const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
+export const capitalizeFirstLetter = (str: string): string => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

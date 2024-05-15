@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { deleteProduct, getAllUserProduct } from "../redux/slices/productSlice";
 import { useNavigate } from "react-router-dom";
-import { truncateText } from "../utils/customText";
+import { truncateText } from "../utils/textFormat";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { productType } from "../types/productType";
 
@@ -35,8 +35,8 @@ const MyBooks = () => {
 
   return (
     <>
-      <div className="min-h-screen pb-8 bg-emerald-100">
-        <div className="p-4 pt-4 ml-4 text-xl font-bold text-cyan-800">
+      <div className="flex flex-col items-center min-h-screen pb-8">
+        <div className="p-4 pt-4 mt-4 ml-4 text-xl font-bold text-cyan-800">
           <h1>My Books</h1>
         </div>
         {product &&
@@ -98,13 +98,13 @@ const MyBooks = () => {
               <div>
                 <button
                   onClick={() => navigate(`/product/${item.productId}`)}
-                  className="h-8 px-2 mr-2 text-xs font-bold text-white rounded bg-cyan-800 hover:bg-cyan-600"
+                  className="h-8 px-2 mr-2 text-sm font-bold border rounded text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
                 >
                   View
                 </button>
                 <button
                   onClick={() => handleDelete(item.productId)}
-                  className="h-8 px-2 text-xs font-bold text-white rounded bg-rose-800 hover:bg-rose-600"
+                  className="h-8 px-2 text-sm font-bold border rounded text-rose-600 border-rose-600 hover:bg-rose-100 hover:text-rose-700"
                 >
                   Delete
                 </button>

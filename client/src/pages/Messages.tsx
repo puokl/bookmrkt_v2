@@ -10,83 +10,12 @@ import { dateFromNow, toUpperCase, truncateString } from "../utils/textFormat";
 import ConversationForm from "../components/ConversationForm";
 import ReplyMessage from "../components/ReplyMessage";
 import LoadingSpinner from "../components/LoadingSpinner";
-
-interface ChatDetailsProps {
-  chat: chatType | null;
-  user: any;
-}
-
-const ChatDetails: React.FC<ChatDetailsProps> = ({ chat, user }) => {
-  const handleDetailsClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // Stop propagation to prevent the click event from reaching the outer container
-    event.stopPropagation();
-  };
-
-  if (!chat) {
-    return <p>No chat selected</p>;
-  }
-  return (
-    <div
-      className="p-4 mr-4 border border-red-500 rounded-md"
-      onClick={handleDetailsClick}
-    >
-      <div className="flex justify-between p-1 mb-2 bg-gray-100">
-        <p className="font-bold">{toUpperCase(chat.senderName)}</p>
-        <p className="text-sm">{chat.title}</p>
-      </div>
-
-      {chat.conversation.map((message: conversationType) => {
-        const isCurrentUser = message.senderName === user.name;
-        return (
-          <div
-            key={message._id}
-            className={`flex ${isCurrentUser ? "flex-row-reverse" : ""} mb-2`}
-          >
-            <div
-              className={`rounded-full h-8 w-8 flex items-center justify-center ${
-                isCurrentUser ? "bg-green-500" : "bg-blue-500"
-              }`}
-            >
-              <span className="text-sm text-white">
-                {message.senderName.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <div className="flex flex-col ml-2 mr-2">
-              <div
-                className={`${
-                  isCurrentUser ? "bg-green-200" : "bg-blue-200"
-                } p-2 rounded-md`}
-              >
-                <p className="text-sm">{message.message}</p>
-              </div>
-              <p className="text-xs text-gray-600">
-                {dateFromNow(message.createdAt)}
-              </p>
-            </div>
-          </div>
-        );
-      })}
-
-      {chat._id && (
-        <ConversationForm
-          chatId={chat._id}
-          sellerId={chat.sellerId}
-          sellerName={chat.sellerName}
-          productId={chat.productId}
-          productImage={chat.productImage}
-        />
-      )}
-    </div>
-  );
-};
+import ChatDetails from "../components/ChatDetails";
 
 const Messages = () => {
   const [selectedChat, setSelectedChat] = useState<chatType | null>(null);
-
   const [selectedChatType, setSelectedChatType] = useState("sent");
-
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-
   const [selectedReceivedChat, setSelectedReceivedChat] =
     useState<chatType | null>(null);
   const dispatch = useAppDispatch();
@@ -143,27 +72,31 @@ const Messages = () => {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen p-2 bg-emerald-100">
-        <div className="flex space-x-2 ">
+      <div className="flex flex-col min-h-screen p-2 m-2 ">
+        <div className="flex ml-4 space-x-2 ">
           <button
-            className={`m-2 p-2 my-4 rounded-md ${
-              selectedChatType === "sent" ? "bg-emerald-300" : ""
+            className={`m-2 px-4 my-4 py-1 rounded-md ${
+              selectedChatType === "sent"
+                ? "bg-stone-100 font-bold text-lg"
+                : ""
             }`}
             onClick={() => handleTabClick("sent")}
           >
-            Sent Items
+            Sent
           </button>
           <button
-            className={`m-2 p-2 my-4 rounded-md ${
-              selectedChatType === "received" ? "bg-emerald-300" : ""
+            className={`m-2 px-4 py-1 my-4 rounded-md ${
+              selectedChatType === "received"
+                ? "bg-stone-100 font-bold text-lg"
+                : ""
             }`}
             onClick={() => handleTabClick("received")}
           >
-            Inbox
+            Received
           </button>
         </div>
-
-        <p className="mt-4 mb-2 text-lg font-bold">
+        <hr className="my-2 border-t border-gray-300" />
+        <p className="m-4 font-bold">
           {selectedChatType === "sent" ? "Sent Messages" : "Received Messages"}
         </p>
         <div className="main">
@@ -175,8 +108,8 @@ const Messages = () => {
                   filteredChat.map((item: chatType) => (
                     <div
                       key={item._id}
-                      className={`flex-shrink-0 p-2 m-1 border border-cyan-800 bg-cyan-50 rounded-md cursor-pointer hover:bg-cyan-100 lg:flex-col ${
-                        selectedChatId === item?._id ? "bg-gray-200" : ""
+                      className={`flex-shrink-0 p-2 m-1 mt-2 border  bg-slate-50 rounded-md cursor-pointer hover:bg-slate-100 lg:flex-col ${
+                        selectedChatId === item?._id ? "bg-slate-200" : ""
                       }`}
                       onClick={(event) => {
                         handleChatClick(item, event);
@@ -223,7 +156,7 @@ const Messages = () => {
             </div>
 
             {/* on lg screens */}
-            <div className="hidden lg:w-1/2 lg:block">
+            <div className="hidden mt-2 lg:w-1/2 lg:block">
               {selectedChatToShow?._id && (
                 <div className="lg:w-full lg:min-w-[300px] lg:mx-4 mt-4 lg:mt-0 lg:pr-4">
                   <ChatDetails chat={selectedChatToShow} user={user} />
