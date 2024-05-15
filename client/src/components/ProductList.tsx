@@ -66,26 +66,22 @@ const ProductList = () => {
     category: string | null
   ) => {
     let filteredProducts = [...products];
-
     // Apply orderBy filter
     if (orderBy) {
       filteredProducts = filteredProducts.sort(getSortFunction(orderBy));
     }
-
     // Apply language filter
     if (language) {
       filteredProducts = filteredProducts.filter(
         (product) => product.language === language
       );
     }
-
     // Apply category filter
     if (category) {
       filteredProducts = filteredProducts.filter(
         (product) => product.category === category
       );
     }
-
     // Apply location filter
     if (location) {
       filteredProducts = filteredProducts.filter(

@@ -105,22 +105,22 @@ const Navbar: React.FC<NavbarProps> = () => {
   return (
     <div className="sticky top-0 z-50 flex items-center w-full px-2 py-2 h-18 bg-slate-200">
       <div className="flex items-center w-full h-full my-auto md:w-2/3">
-        {user && (
-          <div className="h-full ">
-            <Link to="/">
-              <img
-                src="/bmi.png"
-                className="object-cover mr-4 max-h-14 lg:hidden"
-                alt="logo"
-              />
-              <img
-                src="/bm.png"
-                className="hidden object-cover ml-4 max-h-14 lg:block"
-                alt="logo"
-              />
-            </Link>
-          </div>
-        )}
+        {/* {user && ( */}
+        <div className="h-full ">
+          <Link to="/">
+            <img
+              src="/bmi.png"
+              className="object-cover mr-4 max-h-14 lg:hidden"
+              alt="logo"
+            />
+            <img
+              src="/bm.png"
+              className="hidden object-cover ml-4 max-h-14 lg:block"
+              alt="logo"
+            />
+          </Link>
+        </div>
+        {/* )} */}
 
         {user && <Search />}
         {/* {user && <LocationFilter />} */}

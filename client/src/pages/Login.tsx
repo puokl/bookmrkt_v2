@@ -50,8 +50,11 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-emerald-100">
-      <form onSubmit={handleSubmit(handleLogin)} className="max-w-xs">
+    <div className="flex items-center justify-center min-h-screen">
+      <form
+        onSubmit={handleSubmit(handleLogin)}
+        className="max-w-xs p-10 mx-20 rounded-md bg-stone-100"
+      >
         <div className="mb-3">
           <label
             htmlFor="email"
@@ -92,7 +95,7 @@ const Login = () => {
         <div className="flex items-center justify-center mt-6">
           <button
             type="submit"
-            className="px-4 py-2 tracking-wider rounded-md text-stone-700 bg-cyan-400 hover:bg-cyan-300"
+            className="px-4 py-2 tracking-wider border rounded text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
           >
             LOGIN
           </button>

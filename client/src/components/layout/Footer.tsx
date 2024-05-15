@@ -7,7 +7,12 @@ const Footer: React.FC = () => {
     <footer className="py-4 text-center bg-slate-200">
       <p>
         &copy; {currentYear} Bookmarkt &nbsp; | &nbsp;
-        <a href="https://www.puok.de/" className="font-bold text-blue-900">
+        <a
+          href="https://www.puok.de/"
+          className="font-bold text-blue-900"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Puokl
         </a>
       </p>
