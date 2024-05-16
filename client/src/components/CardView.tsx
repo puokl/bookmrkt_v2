@@ -13,7 +13,7 @@ const CardView: React.FC<CardViewProps> = ({ products }) => {
     null
   );
   return (
-    <div className="grid grid-cols-2 gap-2 pt-1 mr-4 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 pt-1 mx-2 md:mr-4 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((item, index) => (
         <div
           key={index}

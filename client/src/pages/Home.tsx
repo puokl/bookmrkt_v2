@@ -62,30 +62,34 @@ const Home: React.FC<HomeProps> = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-col items-center min-h-screen pt-20 bg-stone-200">
+          <div className="flex flex-col items-center pt-2 md:min-h-screen md:pt-20 bg-stone-200 min-h-[85vh]">
             <div className="w-full max-w-2xl text-center">
-              <div className="w-full mb-14">
+              <div className="w-full mt-2 mb-6 md:mb-14">
                 <img
                   src="/bm.png"
-                  className="object-cover w-auto h-auto mx-auto"
+                  className="object-cover w-3/5 mx-auto md:w-auto md:h-auto"
                   alt="logo"
                 />
               </div>
               <div className="text-stone-800">
                 {" "}
-                <h1 className="mb-4 text-5xl font-extrabold">Rescue a Book,</h1>
-                <h1 className="mb-4 text-5xl font-extrabold">Find a Friend:</h1>
-                <h3 className="mb-2 text-3xl">
+                <h1 className="mb-2 text-4xl font-extrabold md:mb-4 md:text-5xl">
+                  Rescue a Book,
+                </h1>
+                <h1 className="mb-2 text-4xl font-extrabold md:mb-4 md:text-5xl">
+                  Find a Friend:
+                </h1>
+                <h3 className="mb-2 text-xl md:text-3xl">
                   Explore a world of second-hand books.
                 </h3>
-                <p className="mb-4 text-3xl">
+                <p className="mb-4 text-xl md:text-3xl">
                   Buy, sell, and trade stories with fellow readers.
                 </p>
                 <div className="flex flex-col items-center justify-center">
                   <p>Choose your city:</p>
                   <LocationFilter
                     styleDiv="text-stone-800 mb-6 mt-2 border border-stone-400 rounded-md "
-                    styleSelect="bg-slate-200 px-2 text-stone-800 "
+                    styleSelect="bg-slate-200 px-2 text-stone-800 w-full"
                   />
                   <p>
                     {" "}
@@ -113,7 +117,7 @@ const Home: React.FC<HomeProps> = () => {
 
                   <button
                     onClick={() => handleLogin(credential)}
-                    className="relative px-4 py-2 mt-6 font-bold border rounded-lg border-stone-400 text-stone-800 bg-slate-200 hover:bg-slate-400"
+                    className="relative px-4 py-2 mt-4 font-bold border rounded-lg md:mt-6 border-stone-400 text-stone-800 bg-slate-200 hover:bg-slate-400"
                     onMouseEnter={() => setTooltipVisible(true)}
                     onMouseLeave={() => setTooltipVisible(false)}
                   >

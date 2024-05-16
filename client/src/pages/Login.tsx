@@ -53,7 +53,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen">
       <form
         onSubmit={handleSubmit(handleLogin)}
-        className="max-w-xs p-10 mx-20 rounded-md bg-stone-100"
+        className="max-w-xs p-10 mx-2 rounded-md md:mx-20 bg-stone-100"
       >
         <div className="mb-3">
           <label

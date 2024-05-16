@@ -52,7 +52,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen ">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-xs p-10 mx-20 rounded-md bg-stone-100"
+        className="w-full max-w-xs p-10 mx-4 rounded-md md:mx-20 bg-stone-100"
       >
         <div className="mb-3">
           <label

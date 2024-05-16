@@ -51,13 +51,16 @@ const Search = () => {
           autoCorrect="off"
           spellCheck="false"
           maxLength={64}
-          className="relative w-full h-10 pl-16 font-medium border rounded-lg outline-none border-stone-300 bg-stone-100"
+          className="relative w-full h-10 pl-8 text-xs font-medium border rounded-lg outline-none md:text-md md:pl-16 border-stone-300 bg-stone-100"
           placeholder="Search by Title or Author"
           value={queryText}
           onChange={handleChange}
         />
         <div className="absolute top-0 right-0 flex items-center h-10">
-          <LocationFilter styleSelect="bg-stone-200 h-full" styleDiv="" />
+          <LocationFilter
+            styleSelect="bg-stone-200 h-full w-[50px]"
+            styleDiv=""
+          />
         </div>
         <div className="absolute flex items-center h-10 left-2">
           <TbSearch className="text-stone-500" size="20px" />

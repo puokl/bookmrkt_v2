@@ -83,10 +83,10 @@ const DisplayProduct = () => {
               <CustomText label="Year" value={product.year} />
               <CustomText label="Category" value={product.category} />
               <CustomText label="Seller" value={product.username} />
-              <div className="flex mt-4 justify-evenly">
+              <div className="flex mt-6 justify-evenly">
                 {user._id === product.userId && (
                   <button
-                    className="px-6 py-2 font-bold text-blue-600 border border-blue-600 rounded md:mt-2 hover:bg-blue-100 hover:text-blue-700"
+                    className="px-6 py-1 text-sm font-bold text-blue-600 border border-blue-600 rounded md:text-md md:py-2 md:mt-2 hover:bg-blue-100 hover:text-blue-700"
                     onClick={handleEdit}
                   >
                     Edit

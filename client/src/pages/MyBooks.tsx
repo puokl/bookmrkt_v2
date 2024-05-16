@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { deleteProduct, getAllUserProduct } from "../redux/slices/productSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { truncateText } from "../utils/textFormat";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { productType } from "../types/productType";
@@ -39,7 +39,17 @@ const MyBooks = () => {
         <div className="p-4 pt-4 mt-4 ml-4 text-xl font-bold text-cyan-800">
           <h1>My Books</h1>
         </div>
-        {product &&
+        {product.length === 0 ? ( // Check if there are no products
+          <div className="flex flex-col items-center justify-center mt-8">
+            <p className="text-lg font-semibold text-gray-700">
+              You have not published any book, yet.
+            </p>
+            <p className="text-gray-600">Start publishing your books now! </p>
+            <Link to="/publish" className="text-blue-600 hover:underline">
+              Publish a Book
+            </Link>
+          </div>
+        ) : (
           product.map((item: any, index: number) => (
             <div
               key={index}
@@ -110,7 +120,8 @@ const MyBooks = () => {
                 </button>
               </div>
             </div>
-          ))}
+          ))
+        )}
       </div>
     </>
   );

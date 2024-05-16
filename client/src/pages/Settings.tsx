@@ -77,7 +77,7 @@ const Settings = () => {
 
   return (
     <>
-      <div className="min-h-screen pt-20 ">
+      <div className="min-h-screen pt-20 mx-4">
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -103,7 +103,7 @@ const Settings = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold border rounded text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
+            className="w-full px-4 py-1 font-bold border rounded md:py-2 text-cyan-600 border-cyan-600 md:mt-2 hover:bg-cyan-100 hover:text-cyan-700"
             disabled={isUploading}
           >
             {isUploading ? "Uploading..." : "Upload Picture"}
@@ -121,7 +121,7 @@ const Settings = () => {
           )}
           <button
             onClick={handleProfile}
-            className="w-full px-4 py-2 mt-4 font-bold border rounded text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
+            className="w-full px-4 py-1 mt-4 font-bold border rounded md:py-2 text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
             disabled={isLoading || !selectedFile}
           >
             {isLoading ? "Updating..." : "Update Profile"}

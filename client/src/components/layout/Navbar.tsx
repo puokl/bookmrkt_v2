@@ -105,29 +105,50 @@ const Navbar: React.FC<NavbarProps> = () => {
   return (
     <div className="sticky top-0 z-50 flex items-center w-full px-2 py-2 h-18 bg-slate-200">
       <div className="flex items-center w-full h-full my-auto md:w-2/3">
-        {/* {user && ( */}
-        <div className="h-full ">
+        {/* {user && (
+          <div className="h-full ">
+            <Link to="/">
+              <img
+                src="/bmi.png"
+                className="object-cover mr-4 max-h-14 lg:hidden"
+                alt="logo"
+              />
+              <img
+                src="/bm.png"
+                className="hidden object-cover ml-4 max-h-14 lg:block"
+                alt="logo"
+              />
+            </Link>
+          </div>
+        )} */}
+        {/* For desktop: always show */}
+        <div className="hidden h-full lg:block">
           <Link to="/">
             <img
               src="/bmi.png"
-              className="object-cover mr-4 max-h-14 lg:hidden"
-              alt="logo"
-            />
-            <img
-              src="/bm.png"
-              className="hidden object-cover ml-4 max-h-14 lg:block"
+              className="object-cover mr-4 max-h-14"
               alt="logo"
             />
           </Link>
         </div>
-        {/* )} */}
+        {/* For mobile: Hide logo if no user */}
+        <div className="pr-4 lg:hidden">
+          {user && (
+            <Link to="/">
+              <img
+                src="/bmi.png"
+                className="object-cover mr-4 max-h-12"
+                alt="logo"
+              />
+            </Link>
+          )}
+        </div>
 
         {user && <Search />}
-        {/* {user && <LocationFilter />} */}
       </div>
 
       {user ? (
-        <div className="w-1/3">
+        <div className="w-1/4 md:w-1/3">
           <div className="flex items-center justify-around">
             <div className="hidden m-3 xl:block">
               <p className="text-xs">You are logged in as:</p>
@@ -137,7 +158,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             </div>
 
             <div
-              className="relative m-2 "
+              className="relative hidden m-2 lg:block"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -283,7 +304,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     onClick={toggleMobileMenu}
                   ></div>
 
-                  <div className="fixed w-[180px] max-w-xs p-4 text-base font-semibold bg-green-100 rounded-lg shadow-lg top-4 right-4 text-slate-400 ">
+                  <div className="fixed w-[180px] max-w-xs p-4 text-base font-semibold bg-stone-100 rounded-lg shadow-lg top-4 right-4 text-slate-400 ">
                     {menuItems.map((item, index) => (
                       <div className="mb-2 icon-container" key={index}>
                         {item.href ? (
@@ -320,16 +341,16 @@ const Navbar: React.FC<NavbarProps> = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-row items-center justify-center w-1/3 mt-1">
+        <div className="flex flex-row items-center justify-center mt-1 md:w-1/3">
           <a
             href="/login"
-            className="p-2 px-6 mb-0 mr-3 text-sm font-bold border-2 rounded text-cyan-800 border-cyan-800 md:mt-2 hover:bg-sky-300 hover:text-cyan-950 md:text-md"
+            className="p-1 px-5 mb-0 mr-3 text-sm font-bold border-2 rounded md:px-6 md:p-2 text-cyan-800 border-cyan-800 md:mt-2 hover:bg-cyan-300 hover:text-cyan-950 md:text-md"
           >
             Login
           </a>
           <a
             href="/register"
-            className="p-2 px-6 text-sm font-bold border-2 rounded text-cyan-800 border-cyan-800 md:mt-2 hover:bg-sky-300 hover:text-cyan-950 md:text-md"
+            className="p-1 px-5 text-sm font-bold border-2 rounded md:p-2 md:px-6 text-cyan-800 border-cyan-800 md:mt-2 hover:bg-cyan-300 hover:text-cyan-950 md:text-md"
           >
             Register
           </a>

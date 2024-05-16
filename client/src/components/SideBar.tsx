@@ -111,7 +111,7 @@ const SideBar = () => {
 
   return (
     <>
-      <div className="flex flex-col h-auto px-6 m-2 ml-4 border rounded-md mt-14">
+      <div className="flex flex-col h-auto px-6 m-2 mt-4 border rounded-md md:ml-4 md:mt-14">
         <em className="pt-4 pb-4 text-sm md:pb-8 md:text-md text-montserrat">
           {filteredProductsAmount.length} books available in {defaultLocation}
         </em>

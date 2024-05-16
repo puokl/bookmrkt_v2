@@ -251,7 +251,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
       <div className="min-h-screen pb-4 my-6">
         <div className="max-w-4xl pt-4 mx-auto">
           <form
-            className="p-8 pb-4 rounded-md shadow-md bg-stone-100"
+            className="p-8 pb-4 mx-3 rounded-md shadow-md md:mx-6 bg-stone-100"
             onSubmit={handleSubmit(handleUpdate)}
           >
             {/* Product Error */}
@@ -356,7 +356,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                   </div>
                 ))}
             </div>
-            <div className="flex items-center mb-4">
+            {/* <div className="flex items-center mb-4">
               <label
                 className="block mr-2 text-sm font-bold text-gray-700"
                 htmlFor="file"
@@ -375,13 +375,42 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                   uploading
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-cyan-700"
-                } px-6 py-2 ml-4 font-bold  text-cyan-600 border border-cyan-600 rounded md:mt-2 hover:bg-cyan-100 hover:text-cyan-700 mb-1`}
+                } px-6 py-2 ml-4 font-bold text-sm md:text-md text-cyan-600 border border-cyan-600 rounded md:mt-2 hover:bg-cyan-100 hover:text-cyan-700 mb-1`}
                 type="button"
                 onClick={handleImageUpload}
                 disabled={uploading}
               >
                 {uploading ? "Uploading..." : "Upload Image"}
               </button>
+            </div> */}
+            <div className="mb-4">
+              <label
+                className="block w-1/2 text-sm font-bold text-gray-700 md:mb-2 md:w-full"
+                htmlFor="file"
+              >
+                Upload New Image
+              </label>
+              <div className="flex flex-col md:flex-row md:items-center">
+                <input
+                  type="file"
+                  name="file"
+                  id="file"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] ?? "")}
+                  className="w-full p-2 mb-2 border border-gray-300 rounded-lg md:w-3/5 md:mb-0 md:mr-2"
+                />
+                <button
+                  className={`${
+                    uploading
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-cyan-700"
+                  } px-6 py-2 font-bold text-sm md:text-md text-cyan-600 border border-cyan-600 rounded md:mt-0 hover:bg-cyan-100 hover:text-cyan-700`}
+                  type="button"
+                  onClick={handleImageUpload}
+                  disabled={uploading}
+                >
+                  {uploading ? "Uploading..." : "Upload Image"}
+                </button>
+              </div>
             </div>
             {productError && (
               <p className="mb-4 text-sm text-red-500">{productError}</p>
@@ -392,15 +421,15 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
               </p>
             )}
             <hr className="my-8 border-t border-gray-300" />
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-center mb-4 md:justify-end">
               <button
-                className="px-6 py-2 mr-4 font-bold border rounded text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
+                className="px-6 py-2 mr-4 text-sm font-bold border rounded md:text-md text-emerald-600 border-emerald-600 md:mt-2 hover:bg-emerald-100 hover:text-emerald-700"
                 type="submit"
               >
-                Update Product
+                Update
               </button>
               <button
-                className="px-6 py-2 ml-4 mr-4 font-bold text-red-600 border border-red-600 rounded md:mt-2 hover:bg-red-100 hover:text-red-700"
+                className="px-6 py-2 ml-4 mr-4 text-sm font-bold text-red-600 border border-red-600 rounded md:text-md md:mt-2 hover:bg-red-100 hover:text-red-700"
                 onClick={handleCancel}
               >
                 Cancel
