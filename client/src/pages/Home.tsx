@@ -117,7 +117,7 @@ const Home: React.FC<HomeProps> = () => {
 
                   <button
                     onClick={() => handleLogin(credential)}
-                    className="relative px-4 py-2 mt-4 font-bold border rounded-lg md:mt-6 border-stone-400 text-stone-800 bg-slate-200 hover:bg-slate-400"
+                    className="relative px-4 py-2 my-4 font-bold border rounded-lg md:mt-6 border-stone-400 text-stone-800 bg-slate-200 hover:bg-slate-400"
                     onMouseEnter={() => setTooltipVisible(true)}
                     onMouseLeave={() => setTooltipVisible(false)}
                   >
