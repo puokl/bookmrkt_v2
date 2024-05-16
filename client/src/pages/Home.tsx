@@ -89,7 +89,7 @@ const Home: React.FC<HomeProps> = () => {
                   <p>Choose your city:</p>
                   <LocationFilter
                     styleDiv="text-stone-800 mb-6 mt-2 border border-stone-400 rounded-md "
-                    styleSelect="bg-slate-200 px-2 text-stone-800 w-full"
+                    styleSelect="bg-slate-200 px-2 text-stone-800 w-fit"
                   />
                   <p>
                     {" "}

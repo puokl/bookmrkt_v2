@@ -70,6 +70,9 @@ const logout = async () => {
     localStorage.removeItem("refreshToken");
   } catch (error) {
     console.log(error);
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
 };
 

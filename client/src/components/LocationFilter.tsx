@@ -37,7 +37,10 @@ const LocationFilter: React.FC<LocationFilterProps> = ({
       <select
         onChange={handleLocationChange}
         value={selectedLocation || ""}
-        className={` md:w-auto py-[10px] pl-9 pr-2  text-sm rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-bold ${styleSelect}`}
+        className={` md:w-auto py-[10px] pl-9 pr-2 text-sm rounded-lg md:text-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-bold ${styleSelect}`}
+        style={{
+          appearance: "none",
+        }}
       >
         <option value="Berlin">Berlin</option>
         <option value="Paris">Paris</option>

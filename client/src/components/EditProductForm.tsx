@@ -356,33 +356,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
                   </div>
                 ))}
             </div>
-            {/* <div className="flex items-center mb-4">
-              <label
-                className="block mr-2 text-sm font-bold text-gray-700"
-                htmlFor="file"
-              >
-                Upload New Image
-              </label>
-              <input
-                type="file"
-                name="file"
-                id="file"
-                onChange={(e) => setSelectedFile(e.target.files?.[0] ?? "")}
-                className="w-3/5 p-2 border border-gray-300 rounded-lg"
-              />
-              <button
-                className={`${
-                  uploading
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-cyan-700"
-                } px-6 py-2 ml-4 font-bold text-sm md:text-md text-cyan-600 border border-cyan-600 rounded md:mt-2 hover:bg-cyan-100 hover:text-cyan-700 mb-1`}
-                type="button"
-                onClick={handleImageUpload}
-                disabled={uploading}
-              >
-                {uploading ? "Uploading..." : "Upload Image"}
-              </button>
-            </div> */}
+
             <div className="mb-4">
               <label
                 className="block w-1/2 text-sm font-bold text-gray-700 md:mb-2 md:w-full"
